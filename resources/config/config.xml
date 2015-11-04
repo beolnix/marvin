@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <bot name="ircBot1" protocol="IRC">
+        <property value="marvin|irc" name="nickname"/>
+        <property value="#dev" name="channelName"/>
+        <property value="devdev" name="channelPassword"/>
+        <property value="irc.dalnet.ru" name="serverName"/>
+        <property value="6665" name="portNumber"/>
+        <property value="KOI8-R" name="charset"/>
+    </bot>
+    <pluginSettings>
+        <managerPassword>test</managerPassword>
+        <libsPath>lib</libsPath>
+        <systemDeployPath>system/systemBundles</systemDeployPath>
+        <pluginsDeployPath>plugins</pluginsDeployPath>
+        <cachePath>system/bundlesCache</cachePath>
+        <tmpPath>system/bundlesTmp</tmpPath>
+        <logsPath>logs</logsPath>
+        <dirPath>system/plugins-home</dirPath>
+    </pluginSettings>
+</configuration>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/task
+         http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <task:executor id="senderExecutor" pool-size="5"/>
+
+    <bean id="imSessionManager" class="com.beolnix.marvin.im.IMSessionManagerImpl">
+        <constructor-arg name="configProvider" ref="configProvider"/>
+        <constructor-arg name="senderExecutor" ref="senderExecutor"/>
+    </bean>
+
+    <bean id="imSessionsWatchDog" class="com.beolnix.marvin.im.IMSessionsWatchDog">
+        <constructor-arg name="sessionManager" ref="imSessionManager"/>
+    </bean>
+
+    <task:scheduled-tasks scheduler="watchDogScheduler">
+        <task:scheduled ref="imSessionsWatchDog" method="checkSessions" fixed-delay="5000"/>
+    </task:scheduled-tasks>
+
+    <task:scheduler id="watchDogScheduler" pool-size="1"/>
+
+</beans>

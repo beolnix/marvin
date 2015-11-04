@@ -1,0 +1,54 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+project.group = 'com.beolnix.marvin'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.version = version
+            pom.artifactId = "osgi-plugin-provider"
+            pom.groupId = project.group
+        }
+    }
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
+
+    compile fileTree(dir:'lib', include: '*.jar')
+
+    compile "com.beolnix.marvin:api:0.1"
+
+    compile "org.springframework:spring-core:${SPRING_VERSION}"
+    compile "org.springframework:spring-beans:${SPRING_VERSION}"
+
+    compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"
+    compile "org.apache.felix:org.apache.felix.main:${FELIX_VERSION}"
+    compile "org.apache.felix:org.apache.felix.fileinstall:${FELIX_FILEINSTALL_VERSION}"
+
+    compile "commons-lang:commons-lang:${COMMONS_LANG_VERSION}"
+    compile "commons-io:commons-io:${COMMONS_IO_VERSION}"
+
+    compile "log4j:log4j:${LOG4J_VERSION}"
+
+    testCompile "junit:junit:${JUNIT_VERSION}"
+    testCompile "org.springframework:spring-test:${SPRING_VERSION}"
+}
+
+jar {
+    def  cp  = ""
+    configurations.runtime.resolve().flatten() { File file
+    -> file.name }.unique().each { aJar ->  cp = cp + " lib/$aJar" }
+
+    manifest {
+        attributes 'Main-Class': 'com.beolnix.App', 'Class-Path' : cp
+
+    }
+}
+
+task copyToLib(dependsOn: configurations.runtime, type: Copy) {
+    into "$buildDir/libs/lib"
+    from configurations.runtime
+}

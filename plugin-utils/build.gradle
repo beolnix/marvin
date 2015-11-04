@@ -1,0 +1,23 @@
+apply plugin: 'maven'
+
+project.group = 'com.beolnix.marvin'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.version = version
+            pom.artifactId = "plugin-utils"
+            pom.groupId = project.group
+        }
+    }
+}
+
+dependencies {
+    compile "com.beolnix.marvin:api:0.1"
+    
+    compile "commons-lang:commons-lang:${COMMONS_LANG_VERSION}"
+    compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"
+    compile "log4j:log4j:${LOG4J_VERSION}"
+
+    testCompile "junit:junit:${JUNIT_VERSION}"
+}

@@ -1,0 +1,19 @@
+apply plugin: 'maven'
+
+project.group = 'com.beolnix.marvin'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.version = version
+            pom.artifactId = "session-utils"
+            pom.groupId = project.group
+        }
+    }
+}
+
+dependencies {
+    compile "com.beolnix.marvin:api:0.1"
+
+    testCompile "junit:junit:${JUNIT_VERSION}"
+}

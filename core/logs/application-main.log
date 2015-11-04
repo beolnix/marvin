@@ -1,0 +1,11 @@
+20:36:30 INFO : im.IMSessionManagerImpl.registerIMSessionProvider() - New IM Session provider has been registered for protocol: IRC
+20:36:30 DEBUG: config.XmlConfigurationProvider.unmarshalConfigFile() - try to unmarshal ConfigFile with config path: /Users/beolnix/dev/marvin/core/src/test/resources/dev-config.xml
+20:36:30 DEBUG: config.XmlConfigurationProvider.unmarshalConfigFile() - Config file unmarshalled successfully.
+20:36:30 INFO : osgi.FelixOSGiContainer.getConfig() - configuring autodeploy for dir /Users/beolnix/dev/marvin/core/build/plugins
+20:36:30 INFO : osgi.FelixOSGiContainer.initFramework() - starting osgi container
+20:36:30 INFO : osgi.FelixOSGiContainer.initFramework() - osgi container started successfully
+20:36:30 INFO : plugins.PluginsManagerImpl.registerPluginsProvider() - New plugins provider registered: com.beolnix.marvin.plugins.providers.osgi.OSGIPluginsProvider
+20:36:30 INFO : im.IMSessionManagerImpl.createSessionFor() - New bot created: ircBot1; protocol: IRC
+20:36:33 INFO : plugins.PluginsManagerImpl.deployPlugin() - New plugin has been deployed: echoPlugin
+20:36:33 INFO : osgi.FelixOSGiContainer.serviceChanged() - registered new plugin: echoPlugin
+20:36:42 INFO : irc.IrcIMSession.onConnect() - ircBot1 connected successfully.

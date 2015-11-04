@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <bot name="ircBot1" protocol="IRC">
+        <property value="marvin|irc" name="nickname"/>
+        <property value="#dev" name="channelName"/>
+        <property value="devdev" name="channelPassword"/>
+        <property value="irc.san.ru" name="serverName"/>
+        <property value="6669" name="portNumber"/>
+        <property value="CP1251" name="charset"/>
+    </bot>
+    <pluginSettings>
+        <managerPassword>test</managerPassword>
+        <libsPath>../plugin-providers/osgi-plugin-provider/lib</libsPath>
+        <systemDeployPath>build/system/systemBundles</systemDeployPath>
+        <pluginsDeployPath>build/plugins</pluginsDeployPath>
+        <cachePath>build/system/bundlesCache</cachePath>
+        <tmpPath>build/system/bundlesTmp</tmpPath>
+        <logsPath>build/logs</logsPath>
+        <dirPath>build/system/plugins-home</dirPath>
+    </pluginSettings>
+</configuration>

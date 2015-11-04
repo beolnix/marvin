@@ -1,0 +1,132 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+def JAVA_VERSION = '1.8'
+
+ext.JAVA_VERSION = JAVA_VERSION
+ext.GROOVY_VERSION = '2.4.4'
+ext.SPRING_VERSION = '4.2.2.RELEASE'
+ext.FELIX_VERSION = '4.0.1'
+ext.FELIX_FILEINSTALL_VERSION = '3.1.10'
+ext.LOG4J_VERSION = '1.2.16'
+ext.JUNIT_VERSION = '4.12'
+ext.JAXB_VERSION = '2.1'
+ext.COMMONS_LANG_VERSION = '2.6'
+ext.COMMONS_IO_VERSION = '2.1'
+
+sourceCompatibility = JAVA_VERSION
+targetCompatibility = JAVA_VERSION
+System.setProperty("file.encoding", "UTF-8")
+
+def distrDir = "$buildDir/distr"
+def version = '0.1'
+
+task packageMarvin(dependsOn: jar) << {
+    project(':core').copyToLib.execute()
+    copyApp.execute()
+    copyConfig.execute()
+    copyScripts.execute()
+
+    def logsDir = new File("$distrDir/logs")
+    logsDir.mkdir()
+
+    def systemDir = new File("$distrDir/system")
+    systemDir.mkdirs()
+
+    def pluginsDir = new File("$distrDir/plugins")
+    pluginsDir.mkdirs()
+}
+
+task copyScripts(type: Copy) {
+    into(distrDir)
+    from ('resources/scripts')
+}
+
+task copyConfig(type: Copy) {
+    into("$distrDir")
+    from('resources/config')
+}
+
+task copyApp(type: Copy) {
+    into("$distrDir")
+    from('core/build/libs')
+    rename { filename ->
+        filename.replace "core-${version}", 'core'
+    }
+}
+
+repositories {
+    maven {
+        url "http://nexus.beolnix.com/content/repositories/releases/"
+    }
+    mavenCentral()
+    mavenLocal()
+
+}
+
+dependencies {
+
+    compile "com.beolnix.marvin:api:0.1"
+
+    compile project(':core')
+    compile project(':plugin-utils')
+    compile project(':im-session-utils')
+
+    project(':im-sessions').getAllprojects().each {
+        compile (it)
+    }
+}
+
+
+subprojects {
+    sourceCompatibility = JAVA_VERSION
+    targetCompatibility = JAVA_VERSION
+    System.setProperty("file.encoding", "UTF-8")
+
+    apply plugin: 'idea'
+    apply plugin: 'groovy'
+    apply plugin: 'maven'
+    
+    project.group = 'com.beolnix.marvin'
+
+    project.version = version
+
+    repositories {
+        maven {
+            url "http://nexus.beolnix.com/content/repositories/releases/"
+        }
+        mavenCentral()
+        mavenLocal()
+
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                if (version.toString().endsWith("SNAPSHOT")) {
+                    repository(url: "http://nexus.beolnix.com/content/repositories/snapshots/") {
+                        authentication(userName: System.getenv()['REPO_USER'], password: System.getenv()['REPO_SNAPSHOT_PASSWORD'])
+                    }
+                } else {
+                    repository(url: "http://nexus.beolnix.com/content/repositories/releases/") {
+                        authentication(userName: System.getenv()['REPO_USER'], password: System.getenv()['REPO_RELEASE_PASSWORD'])
+                    }
+                }
+            }
+        }
+    }
+
+    configurations { provided }
+
+    sourceSets {
+        main { compileClasspath += configurations.provided }
+    }
+
+    dependencies {
+        compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
+    }
+
+}
+
+
+
