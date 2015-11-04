@@ -47,12 +47,14 @@ Please use -h to see the help.
 To deploy plugin simply copy plugin jar to the plugins directory. If jar is correct marvin bot will pick it up on the fly. No restart is required.
 To undeploy plugin simply remove plugin's jar from the plugins directory. Marvin bot will undeploy it on the fly. No restart is required.
 
+
+
 ## Plugins development
 Basically you just need to implement:
 - The `Plugin` interface
 - The `Activator` to register your plugin in the system on deploy
 
-You also need to pack it as a correct osgi boundle. Please use [echo-plugin](https://github.com/beolnix/marvin-echo-plugin) as an example
+You also need to pack it as a correct osgi boundle. Please use [echo-plugin](https://github.com/beolnix/marvin-echo-plugin) and [newyear-plugin](https://github.com/beolnix/marvin-newyear-plugin) as  examples.
 
 
 
