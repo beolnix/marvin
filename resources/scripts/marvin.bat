@@ -1,1 +1,1 @@
-java -jar core.jar
+java -jar core.jar %*
