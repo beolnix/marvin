@@ -2,10 +2,7 @@ package com.beolnix.marvin.plugins;
 
 import com.beolnix.marvin.im.api.IMIncomingMessage;
 import com.beolnix.marvin.im.api.IMSessionManager;
-import com.beolnix.marvin.plugins.api.PluginsManager;
-import com.beolnix.marvin.plugins.api.PluginsListener;
-import com.beolnix.marvin.plugins.api.PluginsProvider;
-import com.beolnix.marvin.plugins.api.IMPlugin;
+import com.beolnix.marvin.plugins.api.*;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 /**
  * Created by beolnix on 31/10/15.
@@ -43,7 +41,11 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
 
     public void process(IMIncomingMessage msg) {
         logger.trace("Processing msg: '" + msg.getRawMessageBody() + "'; from: " + msg.getBotName());
-        for (IMPlugin imPlugin : pluginsMap.values()) {
+        List<IMPlugin> initializedPlugins = pluginsMap.values().stream()
+                .filter( plugin -> IMPluginState.INITIALIZED == plugin.getPluginState() )
+                .collect(Collectors.toList());
+
+        for (IMPlugin imPlugin : initializedPlugins) {
             if (imPlugin.getCommandsList().contains(msg.getCommandName())) {
                 executor.execute(() -> imPlugin.process(msg));
             } else if (imPlugin.isProcessAll()) {
