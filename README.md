@@ -9,6 +9,9 @@ Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC
 | 0.2-SNAPSHOT | In dev | [master](https://github.com/beolnix/marvin-core/)
 
 ## Requirements
+It was tested on Mac OS X and Ubuntu 14.04. 
+I guess it should also work fine on Windows if you run it as `java -jar core.jar`.
+
 #### To run
 * JDK 8 only
 
@@ -20,13 +23,15 @@ Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC
 ## Build from source
 Just execute the following command and may the force be with you:
 ```
-gradle clean packageMarvin
-````
+gradle clean build
+```
 
-If everything was fine, the distr will be in build/libs/distr. 
+If everything was fine, the distr will be in **build/libs/distr**. 
 
 ## Launch
-Edit config.xml placed in a root dir of the distr and launch marvin.sh 
+Edit config.xml placed in a root dir of the distr and launch **marvin.sh**
+You may also provide some specific path to the config using -c command line argument.
+Please use -h to see the help.
 
 ## Distr layout
 * marvin.sh - run script
@@ -48,4 +53,6 @@ Basically you just need to implement:
 - The `Activator` to register your plugin in the system on deploy
 
 You also need to pack it as a correct osgi boundle. Please use [echo-plugin](https://github.com/beolnix/marvin-echo-plugin) as an example
+
+
 
