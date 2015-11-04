@@ -19,7 +19,7 @@ targetCompatibility = JAVA_VERSION
 System.setProperty("file.encoding", "UTF-8")
 
 def distrDir = "$buildDir/distr"
-def version = '0.1'
+def version = '0.2-SNAPSHOT'
 
 task packageMarvin(dependsOn: jar) << {
     project(':core').copyToLib.execute()
