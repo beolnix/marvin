@@ -42,14 +42,14 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
     public void process(IMIncomingMessage msg) {
         logger.trace("Processing msg: '" + msg.getRawMessageBody() + "'; from: " + msg.getBotName());
         pluginsMap.values().stream()
+                // pass message to Initialized plugins only
                 .filter(plugin -> IMPluginState.INITIALIZED == plugin.getPluginState())
-                .forEach(plugin -> {
-                    if (plugin.getCommandsList().contains(msg.getCommandName())) {
-                        executor.execute(() -> plugin.process(msg));
-                    } else if (plugin.isProcessAll()) {
-                        executor.execute(() -> plugin.process(msg));
-                    }
-                });
+                // which supports the protocol
+                .filter(plugin -> plugin.isAllProtocolsSupported() || plugin.isProtocolSupported(msg.getProtocol()))
+                // and can process requested command or should intercept all messages
+                .filter(plugin -> plugin.isProcessAll() || plugin.isCommandSupported(msg.getCommandName()))
+
+                .forEach(plugin -> executor.execute(() -> plugin.process(msg)));
     }
 
     @Override

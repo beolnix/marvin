@@ -2,7 +2,7 @@ package com.beolnix.marvin.im.irc;
 
 import com.beolnix.marvin.im.IMSessionUtils;
 import com.beolnix.marvin.im.api.IMIncomingMessage;
-import com.beolnix.marvin.im.api.IMMessageIncomingBuilder;
+import com.beolnix.marvin.im.api.IMIncomingMessageBuilder;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import jerklib.events.ErrorEvent;
 import jerklib.events.IRCEvent;
@@ -89,7 +89,7 @@ public class IrcMessageListener implements IRCEventListener {
         String msg = me.getMessage();
         boolean command = imSessionUtils.isCommand(msg, IrcIMSession.COMMAND_SYMBOL);
 
-        IMMessageIncomingBuilder builder = new IMMessageIncomingBuilder()
+        IMIncomingMessageBuilder builder = new IMIncomingMessageBuilder()
                 .withBotName(botName)
                 .withRawMessageBody(me.getMessage())
                 .withAutor(me.getNick())
