@@ -26,7 +26,7 @@ dependencies {
 
     compile fileTree(dir:'lib', include: '*.jar')
 
-    compile "com.beolnix.marvin:api:0.1"
+    compile "com.beolnix.marvin:api:0.2-SNAPSHOT"
 
     compile project(':im-sessions:irc-im-session')
     compile project(':plugin-providers:osgi-plugin-provider')

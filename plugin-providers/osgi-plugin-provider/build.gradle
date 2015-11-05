@@ -19,7 +19,7 @@ dependencies {
 
     compile fileTree(dir:'lib', include: '*.jar')
 
-    compile "com.beolnix.marvin:api:0.1"
+    compile "com.beolnix.marvin:api:0.2-SNAPSHOT"
 
     compile "org.springframework:spring-core:${SPRING_VERSION}"
     compile "org.springframework:spring-beans:${SPRING_VERSION}"

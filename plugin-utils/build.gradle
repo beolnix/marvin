@@ -13,7 +13,7 @@ uploadArchives {
 }
 
 dependencies {
-    compile "com.beolnix.marvin:api:0.1"
+    compile "com.beolnix.marvin:api:0.2-SNAPSHOT"
     
     compile "commons-lang:commons-lang:${COMMONS_LANG_VERSION}"
     compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"

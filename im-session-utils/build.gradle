@@ -13,7 +13,7 @@ uploadArchives {
 }
 
 dependencies {
-    compile "com.beolnix.marvin:api:0.1"
+    compile "com.beolnix.marvin:api:0.2-SNAPSHOT"
 
     testCompile "junit:junit:${JUNIT_VERSION}"
 }
