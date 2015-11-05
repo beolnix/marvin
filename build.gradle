@@ -1,8 +1,10 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco'
+
 
 def JAVA_VERSION = '1.8'
-
 ext.JAVA_VERSION = JAVA_VERSION
 ext.GROOVY_VERSION = '2.4.4'
 ext.SPRING_VERSION = '4.2.2.RELEASE'
@@ -13,6 +15,8 @@ ext.JUNIT_VERSION = '4.12'
 ext.JAXB_VERSION = '2.1'
 ext.COMMONS_LANG_VERSION = '2.6'
 ext.COMMONS_IO_VERSION = '2.1'
+def JACOCO_TOOL_VERSION = '0.7.1.201405082137'
+def MARVIN_API_VERSION = '0.2-SNAPSHOT'
 
 sourceCompatibility = JAVA_VERSION
 targetCompatibility = JAVA_VERSION
@@ -21,39 +25,14 @@ System.setProperty("file.encoding", "UTF-8")
 def distrDir = "$buildDir/distr"
 def version = '0.2-SNAPSHOT'
 
-task packageMarvin(dependsOn: jar) << {
-    project(':core').copyToLib.execute()
-    copyApp.execute()
-    copyConfig.execute()
-    copyScripts.execute()
-
-    def logsDir = new File("$distrDir/logs")
-    logsDir.mkdir()
-
-    def systemDir = new File("$distrDir/system")
-    systemDir.mkdirs()
-
-    def pluginsDir = new File("$distrDir/plugins")
-    pluginsDir.mkdirs()
-}
-
-task copyScripts(type: Copy) {
-    into(distrDir)
-    from ('resources/scripts')
-}
-
-task copyConfig(type: Copy) {
-    into("$distrDir")
-    from('resources/config')
-}
-
-task copyApp(type: Copy) {
-    into("$distrDir")
-    from('core/build/libs')
-    rename { filename ->
-        filename.replace "core-${version}", 'core'
+sonarqube {
+    properties {
+        property "sonar.projectName", "marvin"
+        property "sonar.projectKey", "marvin"
     }
 }
+
+
 
 repositories {
     maven {
@@ -69,7 +48,7 @@ repositories {
 
 dependencies {
 
-    compile "com.beolnix.marvin:api:0.1"
+    compile "com.beolnix.marvin:api:${MARVIN_API_VERSION}"
 
     compile project(':core')
     compile project(':plugin-utils')
@@ -78,6 +57,26 @@ dependencies {
     project(':im-sessions').getAllprojects().each {
         compile (it)
     }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "http://repo1.maven.org/maven2/"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.sonarqube.gradle:gradle-sonarqube-plugin:1.0'
+        classpath "org.ajoberstar:gradle-jacoco:0.1.0"
+    }
+}
+
+test {
+    ignoreFailures = true
 }
 
 
@@ -89,10 +88,22 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'groovy'
     apply plugin: 'maven'
+    apply plugin: 'jacoco'
     
     project.group = 'com.beolnix.marvin'
 
     project.version = version
+
+    jacoco {
+        toolVersion = JACOCO_TOOL_VERSION
+        reportsDir = file("$buildDir/customJacocoReportDir")
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.projectName", "$project.name"
+        }
+    }
 
     repositories {
         maven {
@@ -132,6 +143,63 @@ subprojects {
         compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
     }
 
+    buildscript {
+        repositories {
+            maven {
+                url "http://repo1.maven.org/maven2/"
+            }
+            maven {
+                url "https://plugins.gradle.org/m2/"
+            }
+            mavenLocal()
+        }
+        dependencies {
+            classpath "org.sonarqube.gradle:gradle-sonarqube-plugin:1.0"
+            classpath "org.ajoberstar:gradle-jacoco:0.1.0"
+        }
+    }
+
+    test {
+        ignoreFailures = true
+        jacoco {
+            append = false
+        }
+    }
+
+}
+
+task packageMarvin(dependsOn: jar) << {
+    project(':core').copyToLib.execute()
+    copyApp.execute()
+    copyConfig.execute()
+    copyScripts.execute()
+
+    def logsDir = new File("$distrDir/logs")
+    logsDir.mkdir()
+
+    def systemDir = new File("$distrDir/system")
+    systemDir.mkdirs()
+
+    def pluginsDir = new File("$distrDir/plugins")
+    pluginsDir.mkdirs()
+}
+
+task copyScripts(type: Copy) {
+    into(distrDir)
+    from ('resources/scripts')
+}
+
+task copyConfig(type: Copy) {
+    into("$distrDir")
+    from('resources/config')
+}
+
+task copyApp(type: Copy) {
+    into("$distrDir")
+    from('core/build/libs')
+    rename { filename ->
+        filename.replace "core-${version}", 'core'
+    }
 }
 
 
