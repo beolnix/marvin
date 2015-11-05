@@ -92,9 +92,8 @@ public class IMSessionManagerImpl implements IMSessionManager {
         }
 
         if (imSession.getState() != IMSessionState.CONNECTED) {
-            logger.error("IMSession " + outMsg.getBotName() + " hasn't been yet connected. " +
-                    "OutMessage will be placed back to the outgoing queue");
-            sendMessage(outMsg);
+            logger.error("Bot '" + outMsg.getBotName() + "' can't send the message because it isn't connected");
+            return;
         }
 
         imSession.sendMessage(outMsg);
