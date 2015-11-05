@@ -163,7 +163,7 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
         session.addIRCEventListener(ircMessageListener);
         try {
             // give jerklib a chance to establish a connection
-            Thread.sleep(15000);
+            Thread.sleep(45000);
         } catch (InterruptedException e) {}
         if (!session.isConnected()) {
             state = IMSessionState.DISCONNECTED;
