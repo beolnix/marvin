@@ -23,22 +23,22 @@ public class IMSessionsWatchDog {
     }
 
     public void checkSessions() {
-        Map<String, IMSession> sessionMap = sessionManager.getIMSessions();
-        for (IMSession imSession : sessionMap.values()) {
-            if (isStateBad(imSession.getState())) {
-                logger.warn("The state of bot '" + imSession.getBotName()
-                        + "' is: " + imSession.getState() + ". Try to connect it once again.");
-                imSession.connect();
-            }
-        }
+        sessionManager.getIMSessions().values().stream()
+                .filter(this::isStateGood)
+                .forEach( imSession -> {
+                    logger.warn("The  bot '" + imSession.getBotName()
+                            + "' is in '" + imSession.getState() + "' state. Try to connect it once again.");
+                    imSession.connect();
+                });
     }
 
-    private boolean isStateBad(IMSessionState state) {
+    private boolean isStateGood(IMSession imSession) {
+        IMSessionState state = imSession.getState();
         if (state == null) {
-            return true;
+            return false;
         }
 
-        return state != IMSessionState.CONNECTED &&
-                state != IMSessionState.CONNECTING;
+        return state == IMSessionState.CONNECTED ||
+                state == IMSessionState.CONNECTING;
     }
 }
