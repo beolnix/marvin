@@ -29,6 +29,8 @@ class App {
 
     private static final String SPRING_CONTEXT_LOCATION = "classpath:/app-context/application-context.xml";
 
+    private App() {} // use static main
+
     public static void main(String[] args) {
         processCommandLineArgs(args);
         initApp();
