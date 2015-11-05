@@ -43,6 +43,7 @@ public class XmlConfigurationProvider implements ConfigurationProvider {
         this.unmarshaller = unmarshaller;
     }
 
+    @Override
     public Configuration getConfiguration() throws ConfigurationException {
         if (configuration == null) {
             lock.lock();
@@ -102,9 +103,9 @@ public class XmlConfigurationProvider implements ConfigurationProvider {
 
         try {
             InputStream is = new FileInputStream(configPath);
-            Configuration configuration = (Configuration) unmarshaller.unmarshal(new StreamSource(is));
+            Configuration config = (Configuration) unmarshaller.unmarshal(new StreamSource(is));
             logger.debug("Config file unmarshalled successfully.");
-            return configuration;
+            return config;
         } catch (Exception e) {
             logger.error("can't parse configuration file: " + e.getMessage());
             throw new ConfigurationException(e);
@@ -113,6 +114,6 @@ public class XmlConfigurationProvider implements ConfigurationProvider {
 
     @Override
     public void updateConfiguration(Configuration configuration) throws ConfigurationException {
-
+        //TODO
     }
 }
