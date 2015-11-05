@@ -24,7 +24,7 @@ public class IMSessionsWatchDog {
 
     public void checkSessions() {
         sessionManager.getIMSessions().values().stream()
-                .filter(this::isStateGood)
+                .filter(this::isStateBad)
                 .forEach( imSession -> {
                     logger.warn("The  bot '" + imSession.getBotName()
                             + "' is in '" + imSession.getState() + "' state. Try to connect it once again.");
@@ -32,13 +32,13 @@ public class IMSessionsWatchDog {
                 });
     }
 
-    private boolean isStateGood(IMSession imSession) {
+    private boolean isStateBad(IMSession imSession) {
         IMSessionState state = imSession.getState();
         if (state == null) {
-            return false;
+            return true;
         }
 
-        return state == IMSessionState.CONNECTED ||
-                state == IMSessionState.CONNECTING;
+        return state != IMSessionState.CONNECTED &&
+                state != IMSessionState.CONNECTING;
     }
 }
