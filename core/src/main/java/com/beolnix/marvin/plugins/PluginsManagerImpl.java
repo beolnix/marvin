@@ -1,6 +1,6 @@
 package com.beolnix.marvin.plugins;
 
-import com.beolnix.marvin.im.api.IMIncomingMessage;
+import com.beolnix.marvin.im.api.model.IMIncomingMessage;
 import com.beolnix.marvin.im.api.IMSessionManager;
 import com.beolnix.marvin.plugins.api.*;
 import org.apache.log4j.Logger;

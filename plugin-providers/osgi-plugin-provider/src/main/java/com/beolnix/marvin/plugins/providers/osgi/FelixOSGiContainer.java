@@ -1,9 +1,9 @@
 package com.beolnix.marvin.plugins.providers.osgi;
 
-import com.beolnix.marvin.config.api.Configuration;
 import com.beolnix.marvin.config.api.ConfigurationProvider;
-import com.beolnix.marvin.config.api.PluginsSettings;
 import com.beolnix.marvin.config.api.error.ConfigurationException;
+import com.beolnix.marvin.config.api.model.Configuration;
+import com.beolnix.marvin.config.api.model.PluginsSettings;
 import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.IMPlugin;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;

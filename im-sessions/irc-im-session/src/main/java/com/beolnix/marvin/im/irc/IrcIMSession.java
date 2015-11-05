@@ -1,8 +1,8 @@
 package com.beolnix.marvin.im.irc;
 
-import com.beolnix.marvin.im.api.IMOutgoingMessage;
 import com.beolnix.marvin.im.api.IMSession;
 import com.beolnix.marvin.im.api.IMSessionState;
+import com.beolnix.marvin.im.api.model.IMOutgoingMessage;
 import com.beolnix.marvin.im.irc.model.IrcBotSettings;
 import jerklib.Channel;
 import jerklib.ConnectionManager;

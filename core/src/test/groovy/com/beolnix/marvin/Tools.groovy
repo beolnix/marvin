@@ -1,9 +1,11 @@
 package com.beolnix.marvin
 
-import com.beolnix.marvin.config.api.Bot
-import com.beolnix.marvin.config.api.Configuration
+import com.beolnix.marvin.config.api.model.Bot
+import com.beolnix.marvin.config.api.model.Configuration
 import com.beolnix.marvin.config.api.ConfigurationProvider
-import com.beolnix.marvin.config.api.Property
+import com.beolnix.marvin.config.api.model.Property
+import com.beolnix.marvin.config.api.model.Configuration
+import com.beolnix.marvin.config.api.model.Property
 import com.beolnix.marvin.im.irc.model.IrcBotSettings
 import org.junit.Ignore
 import org.junit.Test

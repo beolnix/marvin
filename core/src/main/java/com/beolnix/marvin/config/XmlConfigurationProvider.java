@@ -2,9 +2,9 @@ package com.beolnix.marvin.config;
 
 import com.beolnix.marvin.config.api.*;
 import com.beolnix.marvin.config.api.error.ConfigurationException;
-import com.beolnix.marvin.config.api.Bot;
-import com.beolnix.marvin.config.api.Configuration;
-import com.beolnix.marvin.config.api.PluginsSettings;
+import com.beolnix.marvin.config.api.model.Bot;
+import com.beolnix.marvin.config.api.model.Configuration;
+import com.beolnix.marvin.config.api.model.PluginsSettings;
 import org.apache.log4j.Logger;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;

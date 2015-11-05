@@ -1,8 +1,7 @@
 package com.beolnix.marvin.config
 
-import com.beolnix.marvin.config.XmlConfigurationProvider
 import com.beolnix.marvin.config.api.ConfigurationProvider
-import com.beolnix.marvin.config.api.Configuration
+import com.beolnix.marvin.config.api.model.Configuration
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.oxm.jaxb.Jaxb2Marshaller

@@ -1,7 +1,7 @@
 package com.beolnix.marvin.plugins
 
-import com.beolnix.marvin.im.api.IMIncomingMessage
-import com.beolnix.marvin.im.api.IMIncomingMessageBuilder
+import com.beolnix.marvin.im.api.model.IMIncomingMessage
+import com.beolnix.marvin.im.api.model.IMIncomingMessageBuilder
 import com.beolnix.marvin.plugins.api.IMPlugin
 import com.beolnix.marvin.plugins.api.IMPluginState
 import com.beolnix.marvin.plugins.api.PluginsProvider

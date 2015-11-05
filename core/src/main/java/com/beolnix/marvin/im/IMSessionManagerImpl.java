@@ -4,7 +4,7 @@ import com.beolnix.marvin.config.api.BotSettings;
 import com.beolnix.marvin.config.api.ConfigurationProvider;
 import com.beolnix.marvin.config.api.error.ConfigurationException;
 import com.beolnix.marvin.im.api.*;
-import com.beolnix.marvin.im.api.IMOutgoingMessage;
+import com.beolnix.marvin.im.api.model.*;
 import com.beolnix.marvin.im.api.IMSessionState;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import org.apache.log4j.Logger;
@@ -65,7 +65,7 @@ public class IMSessionManagerImpl implements IMSessionManager {
         IMSessionProvider imSessionProvider = sessionProvidersMap.get(botSettings.getProtocol());
 
         if (imSessionProvider != null) {
-            IMSession imSession = imSessionProvider.getNewSession(botSettings, pluginsManager);
+            IMSession imSession = imSessionProvider.createNewSession(botSettings, pluginsManager);
             imSession.connect();
             sessionsMap.put(botName, imSession);
             logger.info("New bot created: " + botName + "; protocol: " + imSession.getProtocol());

@@ -15,7 +15,7 @@ class PluginUtils {
         String logsPath = ''
         if (bundleContext)
              logsPath = bundleContext.getProperty(IMPlugin.LOGS_PATH_PARAM_NAME)
-        if (org.apache.commons.lang.StringUtils.isEmpty(logsPath))
+        if (isBlank(logsPath))
             logsPath = 'logs'
 
         Layout layout = new PatternLayout('%d{HH:mm:ss} %-5p: %c{2}.%M() - %m%n')
@@ -31,12 +31,20 @@ class PluginUtils {
 
     public File getPluginHomeDir(BundleContext bundleContext, String pluginName) {
         String dirPath = bundleContext.getProperty(IMPlugin.LOGS_PATH_PARAM_NAME)
-        if (org.apache.commons.lang.StringUtils.isEmpty(dirPath))
+        if (isBlank(dirPath))
             dirPath = 'plugins-home'
 
         File dir = new File("${dirPath}/${pluginName}")
         dir.mkdirs()
 
         return dir
+    }
+
+    boolean isBlank(String value) {
+        if (value == null) {
+            return true
+        }
+
+        return value.replace(" ", "").length() == 0
     }
 }

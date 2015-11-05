@@ -20,7 +20,7 @@ public class IrcIMSessionProvider implements IMSessionProvider {
     }
 
     @Override
-    public IMSession getNewSession(BotSettings botSettings, PluginsManager pluginsManager) {
+    public IMSession createNewSession(BotSettings botSettings, PluginsManager pluginsManager) {
         IrcBotSettings ircBotSettings = new IrcBotSettings(botSettings);
         IrcMessageListener ircMessageListener = new IrcMessageListener(ircBotSettings.getName(), pluginsManager);
         return IrcIMSession.createNewInstance(ircBotSettings, ircMessageListener);

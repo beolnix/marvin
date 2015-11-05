@@ -13,9 +13,9 @@
     </bean>
 
     <oxm:jaxb2-marshaller id="marshaller">
-        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.Bot"/>
-        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.Configuration"/>
-        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.PluginsSettings"/>
-        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.Property"/>
+        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.model.Bot"/>
+        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.model.Configuration"/>
+        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.model.PluginsSettings"/>
+        <oxm:class-to-be-bound name="com.beolnix.marvin.config.api.model.Property"/>
     </oxm:jaxb2-marshaller>
 </beans>

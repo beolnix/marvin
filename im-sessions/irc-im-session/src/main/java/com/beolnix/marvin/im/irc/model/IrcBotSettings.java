@@ -1,7 +1,7 @@
 package com.beolnix.marvin.im.irc.model;
 
 import com.beolnix.marvin.config.api.BotSettings;
-import com.beolnix.marvin.config.api.Property;
+import com.beolnix.marvin.config.api.model.Property;
 
 import java.util.List;
 import java.util.Map;

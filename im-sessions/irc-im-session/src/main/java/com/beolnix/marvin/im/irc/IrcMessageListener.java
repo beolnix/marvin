@@ -1,8 +1,8 @@
 package com.beolnix.marvin.im.irc;
 
 import com.beolnix.marvin.im.IMSessionUtils;
-import com.beolnix.marvin.im.api.IMIncomingMessage;
-import com.beolnix.marvin.im.api.IMIncomingMessageBuilder;
+import com.beolnix.marvin.im.api.model.IMIncomingMessage;
+import com.beolnix.marvin.im.api.model.IMIncomingMessageBuilder;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import jerklib.events.ErrorEvent;
 import jerklib.events.IRCEvent;
