@@ -59,6 +59,9 @@ repositories {
     maven {
         url "http://nexus.beolnix.com/content/repositories/releases/"
     }
+    maven {
+        url "http://nexus.beolnix.com/content/repositories/snapshots/"
+    }
     mavenCentral()
     mavenLocal()
 
@@ -94,6 +97,9 @@ subprojects {
     repositories {
         maven {
             url "http://nexus.beolnix.com/content/repositories/releases/"
+        }
+        maven {
+            url "http://nexus.beolnix.com/content/repositories/snapshots/"
         }
         mavenCentral()
         mavenLocal()
