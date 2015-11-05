@@ -41,17 +41,15 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
 
     public void process(IMIncomingMessage msg) {
         logger.trace("Processing msg: '" + msg.getRawMessageBody() + "'; from: " + msg.getBotName());
-        List<IMPlugin> initializedPlugins = pluginsMap.values().stream()
-                .filter( plugin -> IMPluginState.INITIALIZED == plugin.getPluginState() )
-                .collect(Collectors.toList());
-
-        for (IMPlugin imPlugin : initializedPlugins) {
-            if (imPlugin.getCommandsList().contains(msg.getCommandName())) {
-                executor.execute(() -> imPlugin.process(msg));
-            } else if (imPlugin.isProcessAll()) {
-                executor.execute(() -> imPlugin.process(msg));
-            }
-        }
+        pluginsMap.values().stream()
+                .filter(plugin -> IMPluginState.INITIALIZED == plugin.getPluginState())
+                .forEach(plugin -> {
+                    if (plugin.getCommandsList().contains(msg.getCommandName())) {
+                        executor.execute(() -> plugin.process(msg));
+                    } else if (plugin.isProcessAll()) {
+                        executor.execute(() -> plugin.process(msg));
+                    }
+                });
     }
 
     @Override
