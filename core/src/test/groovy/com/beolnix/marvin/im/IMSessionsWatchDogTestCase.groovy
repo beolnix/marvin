@@ -16,9 +16,13 @@ class IMSessionsWatchDogTestCase {
     @Test
     public void isConnectCalled() {
         def isConnectCalled = false
+        def isDisconnectCalled = false
         def imSession = [
                 getState: {
                     IMSessionState.ERROR
+                },
+                disconnect : {
+                    isDisconnectCalled = true
                 },
                 connect : {
                     isConnectCalled = true
@@ -35,6 +39,7 @@ class IMSessionsWatchDogTestCase {
         def watchDog = new IMSessionsWatchDog(imSessionManager)
         watchDog.checkSessions()
         assertTrue(isConnectCalled)
+        assertTrue(isDisconnectCalled)
     }
 
     @Test
