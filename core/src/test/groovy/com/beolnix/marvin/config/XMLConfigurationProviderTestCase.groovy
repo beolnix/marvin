@@ -1,4 +1,4 @@
-package config
+package com.beolnix.marvin.config
 
 import com.beolnix.marvin.config.XmlConfigurationProvider
 import com.beolnix.marvin.config.api.ConfigurationProvider

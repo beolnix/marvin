@@ -1,4 +1,4 @@
-package config
+package com.beolnix.marvin
 
 import com.beolnix.marvin.config.api.Bot
 import com.beolnix.marvin.config.api.Configuration
