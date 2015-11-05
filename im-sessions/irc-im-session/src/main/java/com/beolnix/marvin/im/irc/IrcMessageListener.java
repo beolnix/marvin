@@ -45,6 +45,7 @@ public class IrcMessageListener implements IRCEventListener {
         errorListenersList.add(errorListener);
     }
 
+    @Override
     public void receiveEvent(IRCEvent ircEvent) {
         if (ircEvent.getRawEventData().contains("PRIVMSG #")) {
             MessageEvent me = (MessageEvent) ircEvent;

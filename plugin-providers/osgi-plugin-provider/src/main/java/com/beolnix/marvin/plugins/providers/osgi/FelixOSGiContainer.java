@@ -41,11 +41,15 @@ public class FelixOSGiContainer implements ServiceListener {
         this.configurationProvider = configurationProvider;
     }
 
-    public static FelixOSGiContainer createNewInstance(ConfigurationProvider configurationProvider) throws PluginsProviderConfigurationException, ConfigurationException {
-        FelixOSGiContainer felixOSGiContainer = new FelixOSGiContainer(configurationProvider);
-        felixOSGiContainer.checkConfiguration();
-        felixOSGiContainer.initFramework();
-        return felixOSGiContainer;
+    public static FelixOSGiContainer createNewInstance(ConfigurationProvider configurationProvider) throws ConfigurationException {
+        try {
+            FelixOSGiContainer felixOSGiContainer = new FelixOSGiContainer(configurationProvider);
+            felixOSGiContainer.checkConfiguration();
+            felixOSGiContainer.initFramework();
+            return felixOSGiContainer;
+        } catch (PluginsProviderConfigurationException e) {
+            throw new ConfigurationException(e);
+        }
     }
 
     private void checkConfiguration() throws PluginsProviderConfigurationException {

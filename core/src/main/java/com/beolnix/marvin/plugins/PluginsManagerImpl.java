@@ -33,12 +33,14 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
         this.executor = executor;
     }
 
+    @Override
     public void registerPluginsProvider(PluginsProvider pluginsProvider) {
         pluginsProvider.registerPluginsListener(this);
         pluginsProvidersList.add(pluginsProvider);
         logger.info("New plugins provider registered: " + pluginsProvider.getClass().getName());
     }
 
+    @Override
     public void process(IMIncomingMessage msg) {
         logger.trace("Processing msg: '" + msg.getRawMessageBody() + "'; from: " + msg.getBotName());
         pluginsMap.values().stream()
