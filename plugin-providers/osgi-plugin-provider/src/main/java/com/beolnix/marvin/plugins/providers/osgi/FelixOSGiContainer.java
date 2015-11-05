@@ -123,10 +123,17 @@ public class FelixOSGiContainer implements ServiceListener {
 
         configProps.setProperty(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, ps.getSystemDeployPath());
         configProps.setProperty(Constants.FRAMEWORK_STORAGE, ps.getCachePath());
-        configProps.setProperty(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
-                "com.beolnix.marvin.im.api; version=1.0.0," +
+        configProps.setProperty(
+                Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
+                        "com.beolnix.marvin.im.api; version=1.0.0," +
+                        "com.beolnix.marvin.im.api.model; version=1.0.0," +
                         "com.beolnix.marvin.im.api.error; version=1.0.0," +
-                        "com.beolnix.marvin.plugins.api; version=1.0.0");
+                        "com.beolnix.marvin.config.api; version=1.0.0," +
+                        "com.beolnix.marvin.config.api.model; version=1.0.0," +
+                        "com.beolnix.marvin.config.api.error; version=1.0.0," +
+                        "com.beolnix.marvin.plugins.api.error; version=1.0.0," +
+                        "com.beolnix.marvin.plugins.api; version=1.0.0"
+        );
         configProps.setProperty(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY,
                 AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE + ", " + AutoProcessor.AUTO_DEPLOY_START_VALUE);
         configProps.setProperty(DirectoryWatcher.DIR, new File(ps.getPluginsDeployPath()).getAbsolutePath());
