@@ -25,11 +25,14 @@ public class IMSessionsWatchDog {
     public void checkSessions() {
         sessionManager.getIMSessions().values().stream()
                 .filter(this::isStateBad)
-                .forEach( imSession -> {
-                    logger.warn("The  bot '" + imSession.getBotName()
-                            + "' is in '" + imSession.getState() + "' state. Try to connect it once again.");
-                    imSession.connect();
-                });
+                .forEach(this::reconnect);
+    }
+
+    private void reconnect(IMSession imSession) {
+        logger.warn("The  bot '" + imSession.getBotName()
+                + "' is in '" + imSession.getState() + "' state. Try to connect it once again.");
+        imSession.disconnect();
+        imSession.connect();
     }
 
     private boolean isStateBad(IMSession imSession) {
