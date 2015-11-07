@@ -8,8 +8,6 @@
         <property name="portNumber">6665</property>
         <property name="charset">KOI8-R</property>
     </bot>
-    <webPlugin name="test">http://test.ru/test</webPlugin>
-    <webPluginDiscoveryService name="service1">http://service1.ru/service1</webPluginDiscoveryService>
     <pluginSettings>
         <managerPassword>test</managerPassword>
         <libsPath>lib</libsPath>

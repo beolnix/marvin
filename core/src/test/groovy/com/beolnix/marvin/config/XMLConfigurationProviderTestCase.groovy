@@ -5,8 +5,6 @@ import com.beolnix.marvin.config.api.model.Bot
 import com.beolnix.marvin.config.api.model.Configuration
 import com.beolnix.marvin.config.api.model.PluginsSettings
 import com.beolnix.marvin.config.api.model.Property
-import com.beolnix.marvin.config.api.model.WebPlugin
-import com.beolnix.marvin.config.api.model.WebPluginsDiscoveryService
 import com.beolnix.marvin.im.irc.model.IrcBotSettings
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Qualifier
@@ -71,12 +69,6 @@ class XMLConfigurationProviderTestCase {
         pluginSettings.logsPath = 'logs'
         pluginSettings.dirPath = 'system/plugins-home'
         config.pluginSettings = pluginSettings
-
-        def webPlugin = new WebPlugin("test", "http://test.ru/test")
-        config.webPlugins += webPlugin
-
-        def webPluginsDiscoveryService = new WebPluginsDiscoveryService("service1", "http://service1.ru/service1")
-        config.webPluginsDiscoveryServices.add(webPluginsDiscoveryService)
 
         config
     }
