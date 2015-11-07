@@ -1,7 +1,13 @@
 package com.beolnix.marvin.config
 
 import com.beolnix.marvin.config.api.ConfigurationProvider
+import com.beolnix.marvin.config.api.model.Bot
 import com.beolnix.marvin.config.api.model.Configuration
+import com.beolnix.marvin.config.api.model.PluginsSettings
+import com.beolnix.marvin.config.api.model.Property
+import com.beolnix.marvin.config.api.model.WebPlugin
+import com.beolnix.marvin.config.api.model.WebPluginsDiscoveryService
+import com.beolnix.marvin.im.irc.model.IrcBotSettings
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.oxm.jaxb.Jaxb2Marshaller
@@ -38,8 +44,41 @@ class XMLConfigurationProviderTestCase {
     public void unmarshalTest() {
         System.getProperties()[XmlConfigurationProvider.CONFIG_PROPERTY_NAME] = "src/test/resources/config/data/sample-config.xml"
         Configuration configuration = xmlConfigurationProvider.getConfiguration()
-        String expected = new File("src/test/resources/config/data/expected_output.txt").text
-        assertEquals(expected, configuration.toString())
+        assertEquals(getExpectedConfiguration().toString(), configuration.toString())
+    }
+
+    def getExpectedConfiguration() {
+        def config = new Configuration()
+
+        def bot = new Bot()
+        bot.name = 'ircBot1'
+        bot.protocol = 'IRC'
+        bot.properties += new Property(IrcBotSettings.NICKNAME, 'marvin|irc')
+        bot.properties += new Property(IrcBotSettings.CHANNEL_NAME, '#dev')
+        bot.properties += new Property(IrcBotSettings.CHANNEL_PASSWORD, 'devdev')
+        bot.properties += new Property(IrcBotSettings.SERVER_NAME, 'irc.dalnet.ru')
+        bot.properties += new Property(IrcBotSettings.PORT_NUMBER, '6665')
+        bot.properties += new Property(IrcBotSettings.CHARSET, 'KOI8-R')
+        config.bots.add(bot)
+
+        def pluginSettings = new PluginsSettings()
+        pluginSettings.managerPassword = 'test'
+        pluginSettings.libsPath = 'lib'
+        pluginSettings.systemDeployPath = 'system/systemBundles'
+        pluginSettings.pluginsDeployPath = 'plugins'
+        pluginSettings.cachePath = 'system/bundlesCache'
+        pluginSettings.tmpPath = 'system/bundlesTmp'
+        pluginSettings.logsPath = 'logs'
+        pluginSettings.dirPath = 'system/plugins-home'
+        config.pluginSettings = pluginSettings
+
+        def webPlugin = new WebPlugin("test", "http://test.ru/test")
+        config.webPlugins += webPlugin
+
+        def webPluginsDiscoveryService = new WebPluginsDiscoveryService("service1", "http://service1.ru/service1")
+        config.webPluginsDiscoveryServices.add(webPluginsDiscoveryService)
+
+        config
     }
 
 }

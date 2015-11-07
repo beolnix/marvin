@@ -46,9 +46,14 @@ repositories {
 
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
 
-    compile "com.beolnix.marvin:api:${MARVIN_API_VERSION}"
+    compile "com.beolnix.marvin:api:${MARVIN_API_VERSION}", charging: true
 
     compile project(':core')
     compile project(':plugin-utils')
