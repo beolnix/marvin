@@ -53,7 +53,7 @@ configurations.all {
 
 dependencies {
 
-    compile "com.beolnix.marvin:api:${MARVIN_API_VERSION}", charging: true
+    compile group: 'com.beolnix.marvin', name: 'api', version: MARVIN_API_VERSION, changing: true
 
     compile project(':core')
     compile project(':plugin-utils')
