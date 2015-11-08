@@ -5,6 +5,7 @@ import com.beolnix.marvin.config.api.ConfigurationProvider;
 
 import com.beolnix.marvin.config.api.error.ConfigurationException;
 import com.beolnix.marvin.config.api.model.Configuration;
+import com.beolnix.marvin.config.api.model.PluginsSettings;
 import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import com.beolnix.marvin.plugins.api.PluginsProvider;
@@ -58,9 +59,9 @@ public class OSGIPluginsProvider implements PluginsProvider {
     private void copySystemBundles() throws PluginsProviderConfigurationException {
 
         try {
-            Configuration configuration = configurationProvider.getConfiguration();
-            FileUtils.copyFile(new File(configuration.getPluginSettings().getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                new File(configuration.getPluginSettings().getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
+            PluginsSettings ps = configurationProvider.getPluginSettings();
+            FileUtils.copyFile(new File(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
+                new File(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
                 true);
         } catch (IOException | ConfigurationException e) {
             throw new PluginsProviderConfigurationException(e);
