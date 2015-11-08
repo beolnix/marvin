@@ -75,31 +75,35 @@ public class IMSessionManagerImpl implements IMSessionManager {
     }
 
     @Override
-    public void sendMessage(final IMOutgoingMessage outMsg) {
-        logger.trace("New message scheduled to be sent from: " + outMsg.getBotName() +
-                "; protocol: " + outMsg.getProtocol() +
-                "; msgBody: " + outMsg.getRawMessageBody());
+    public void sendMessage(final IMOutgoingMessage... outMessages) {
+        if (outMessages.length < 1) {
+            return;
+        }
+        logger.trace("New message scheduled to be sent from: " + outMessages[0].getBotName() +
+                "; protocol: " + outMessages[0].getProtocol());
 
-        this.senderExecutor.execute(() -> send(outMsg));
+        this.senderExecutor.execute(() -> send(outMessages));
     }
 
-    private void send(IMOutgoingMessage outMsg) {
-        IMSession imSession = sessionsMap.get(outMsg.getBotName());
+    private void send(IMOutgoingMessage... outMessages) {
+
+        IMSession imSession = sessionsMap.get(outMessages[0].getBotName());
         if (imSession == null) {
-            String errorMsg = "session " + outMsg.getBotName() + " not found. outMsg dump: " + outMsg.toString();
-            logger.error(errorMsg);
+            logger.error("session " + outMessages[0].getBotName() + " not found.");
             return;
         }
 
         if (imSession.getState() != IMSessionState.CONNECTED) {
-            logger.error("Bot '" + outMsg.getBotName() + "' can't send the message because it isn't connected");
+            logger.error("Bot '" + outMessages[0].getBotName() + "' can't send the message because it isn't connected");
             return;
         }
+        for (IMOutgoingMessage msg : outMessages) {
+            imSession.sendMessage(msg);
+            logger.trace("Message passed to imSession from bot name: " + msg.getBotName() +
+                    "; protocol: " + msg.getProtocol() +
+                    "; msgBody: " + msg.getRawMessageBody());
+        }
 
-        imSession.sendMessage(outMsg);
-        logger.trace("Message passed to imSession from bot name: " + outMsg.getBotName() +
-                "; protocol: " + outMsg.getProtocol() +
-                "; msgBody: " + outMsg.getRawMessageBody());
     }
 
     @Override
