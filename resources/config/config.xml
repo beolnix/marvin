@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
     <bot name="ircBot1" protocol="IRC">
-        <property value="marvin|irc" name="nickname"/>
-        <property value="#dev" name="channelName"/>
-        <property value="devdev" name="channelPassword"/>
-        <property value="irc.dalnet.ru" name="serverName"/>
-        <property value="6665" name="portNumber"/>
-        <property value="KOI8-R" name="charset"/>
+        <property name="nickname">marvin|irc</property>
+        <property name="channelName">dev</property>
+        <property name="channelPassword">devdev</property>
+        <property name="serverName">irc.dalnet.ru</property>
+        <property name="portNumber">6665</property>
+        <property name="charset">KOI8-R</property>
     </bot>
     <pluginSettings>
         <managerPassword>test</managerPassword>
