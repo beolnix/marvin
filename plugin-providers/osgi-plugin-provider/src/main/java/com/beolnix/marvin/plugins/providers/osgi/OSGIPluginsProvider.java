@@ -22,23 +22,23 @@ public class OSGIPluginsProvider implements PluginsProvider {
 
     // dependencies
     private final ConfigurationProvider configurationProvider;
-    private final FelixOSGiContainer felixOSGiContainer;
+    private final FelixOSGIContainer felixOSGIContainer;
 
     // constants
     private final static Logger logger = Logger.getLogger(OSGIPluginsProvider.class);
 
 
     private OSGIPluginsProvider(ConfigurationProvider configurationProvider,
-                                FelixOSGiContainer felixOSGiContainer) {
+                                FelixOSGIContainer felixOSGIContainer) {
         this.configurationProvider = configurationProvider;
-        this.felixOSGiContainer = felixOSGiContainer;
+        this.felixOSGIContainer = felixOSGIContainer;
     }
 
     public static PluginsProvider createNewInstance(ConfigurationProvider configurationProvider,
-                                                    FelixOSGiContainer felixOSGiContainer,
+                                                    FelixOSGIContainer felixOSGIContainer,
                                                     PluginsManager pluginsManager) throws PluginsProviderConfigurationException {
 
-        OSGIPluginsProvider pluginsProvider = new OSGIPluginsProvider(configurationProvider, felixOSGiContainer);
+        OSGIPluginsProvider pluginsProvider = new OSGIPluginsProvider(configurationProvider, felixOSGIContainer);
         pluginsProvider.copySystemBundles();
         pluginsManager.registerPluginsProvider(pluginsProvider);
 
@@ -47,12 +47,12 @@ public class OSGIPluginsProvider implements PluginsProvider {
 
     @Override
     public void registerPluginsListener(PluginsListener pluginsListener) {
-        this.felixOSGiContainer.registerPluginsListener(pluginsListener);
+        this.felixOSGIContainer.registerPluginsListener(pluginsListener);
     }
 
     @Override
     public void unregisterPluginsListener(PluginsListener pluginsListener) {
-        this.felixOSGiContainer.unregisterPluginsListener(pluginsListener);
+        this.felixOSGIContainer.unregisterPluginsListener(pluginsListener);
     }
 
     private void copySystemBundles() throws PluginsProviderConfigurationException {

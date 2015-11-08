@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * Created by beolnix on 31/10/15.
  */
-public class FelixOSGiContainer implements ServiceListener, FrameworkListener {
+public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
     // dependencies
     private final ConfigurationProvider configurationProvider;
@@ -37,18 +37,18 @@ public class FelixOSGiContainer implements ServiceListener, FrameworkListener {
     final private Map<String, Logger> pluginLoggersMap = new HashMap<>();
 
     // constants
-    private final static Logger logger = Logger.getLogger(FelixOSGiContainer.class);
+    private final static Logger logger = Logger.getLogger(FelixOSGIContainer.class);
 
-    private FelixOSGiContainer(ConfigurationProvider configurationProvider) {
+    private FelixOSGIContainer(ConfigurationProvider configurationProvider) {
         this.configurationProvider = configurationProvider;
     }
 
-    public static FelixOSGiContainer createNewInstance(ConfigurationProvider configurationProvider) throws ConfigurationException {
+    public static FelixOSGIContainer createNewInstance(ConfigurationProvider configurationProvider) throws ConfigurationException {
         try {
-            FelixOSGiContainer felixOSGiContainer = new FelixOSGiContainer(configurationProvider);
-            felixOSGiContainer.checkConfiguration();
-            felixOSGiContainer.initFramework();
-            return felixOSGiContainer;
+            FelixOSGIContainer felixOSGIContainer = new FelixOSGIContainer(configurationProvider);
+            felixOSGIContainer.checkConfiguration();
+            felixOSGIContainer.initFramework();
+            return felixOSGIContainer;
         } catch (PluginsProviderConfigurationException e) {
             throw new ConfigurationException(e);
         }
