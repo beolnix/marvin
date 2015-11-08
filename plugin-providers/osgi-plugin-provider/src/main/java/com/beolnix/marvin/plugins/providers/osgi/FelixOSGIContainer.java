@@ -7,6 +7,7 @@ import com.beolnix.marvin.config.api.model.PluginsSettings;
 import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.IMPlugin;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.fileinstall.internal.DirectoryWatcher;
 import org.apache.felix.framework.FrameworkFactory;
@@ -19,6 +20,7 @@ import static org.osgi.framework.FrameworkEvent.ERROR;
 import static org.osgi.framework.FrameworkEvent.WARNING;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -191,6 +193,7 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
     private void initFramework() throws PluginsProviderConfigurationException {
         Properties configProps = getConfig();
+        copySystemBundles();
         try {
             logger.info("starting osgi container");
             FrameworkFactory factory = new FrameworkFactory();
@@ -210,6 +213,17 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
         }
     }
 
+    private void copySystemBundles() throws PluginsProviderConfigurationException {
+
+        try {
+            PluginsSettings ps = configurationProvider.getPluginSettings();
+            FileUtils.copyFile(new File(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
+                    new File(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
+                    true);
+        } catch (IOException | ConfigurationException e) {
+            throw new PluginsProviderConfigurationException(e);
+        }
+    }
 
     public void registerPluginsListener(PluginsListener pluginsListener) {
         synchronized (pluginList) {

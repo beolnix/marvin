@@ -40,7 +40,6 @@ public class OSGIPluginsProvider implements PluginsProvider {
                                                     PluginsManager pluginsManager) throws PluginsProviderConfigurationException {
 
         OSGIPluginsProvider pluginsProvider = new OSGIPluginsProvider(configurationProvider, felixOSGIContainer);
-        pluginsProvider.copySystemBundles();
         pluginsManager.registerPluginsProvider(pluginsProvider);
 
         return pluginsProvider;
@@ -54,18 +53,6 @@ public class OSGIPluginsProvider implements PluginsProvider {
     @Override
     public void unregisterPluginsListener(PluginsListener pluginsListener) {
         this.felixOSGIContainer.unregisterPluginsListener(pluginsListener);
-    }
-
-    private void copySystemBundles() throws PluginsProviderConfigurationException {
-
-        try {
-            PluginsSettings ps = configurationProvider.getPluginSettings();
-            FileUtils.copyFile(new File(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                new File(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                true);
-        } catch (IOException | ConfigurationException e) {
-            throw new PluginsProviderConfigurationException(e);
-        }
     }
 
 
