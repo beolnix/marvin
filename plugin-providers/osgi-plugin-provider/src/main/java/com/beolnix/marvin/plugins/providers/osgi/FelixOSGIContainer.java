@@ -34,7 +34,6 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
     private BundleContext bundleContext = null;
     private List<PluginsListener> pluginsListenerList = new ArrayList<>();
     final private List<IMPlugin> pluginList = new ArrayList<>();
-    final private Map<String, Logger> pluginLoggersMap = new HashMap<>();
 
     // constants
     private final static Logger logger = Logger.getLogger(FelixOSGIContainer.class);
@@ -56,12 +55,12 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
     private void checkConfiguration() throws PluginsProviderConfigurationException {
         try {
-            Configuration configuration = configurationProvider.getConfiguration();
-            checkForWritable(configuration.getPluginSettings().getCachePath(), "cachePath");
-            checkForWritable(configuration.getPluginSettings().getSystemDeployPath(), "systemDeployPath");
-            checkForWritable(configuration.getPluginSettings().getPluginsDeployPath(), "pluginsDeployPath");
-            checkForWritable(configuration.getPluginSettings().getLogsPath(), "logsPath");
-            checkForWritable(configuration.getPluginSettings().getDirPath(), "dirPath");
+            PluginsSettings ps = configurationProvider.getPluginSettings();
+            checkForWritable(ps.getCachePath(), "cachePath");
+            checkForWritable(ps.getSystemDeployPath(), "systemDeployPath");
+            checkForWritable(ps.getPluginsDeployPath(), "pluginsDeployPath");
+            checkForWritable(ps.getLogsPath(), "logsPath");
+            checkForWritable(ps.getDirPath(), "dirPath");
         } catch (ConfigurationException e) {
             throw new PluginsProviderConfigurationException(e);
         }
