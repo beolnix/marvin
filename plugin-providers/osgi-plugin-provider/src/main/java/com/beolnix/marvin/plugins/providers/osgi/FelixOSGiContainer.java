@@ -119,7 +119,13 @@ public class FelixOSGiContainer implements ServiceListener, FrameworkListener {
             case ERROR:
                 if (event.getThrowable() != null) {
                     logger.error(event.getThrowable().getMessage(), event.getThrowable());
-                    pluginsListenerList.forEach(l -> l.onError(event.getThrowable()));
+                    pluginsListenerList.forEach( e -> {
+                        if (event.getBundle() != null) {
+                            e.onError(event.getBundle().getSymbolicName(), event.getThrowable());
+                        } else {
+                            e.onError("Undefined bundle.", event.getThrowable());
+                        }
+                    });
                 } else if (event.getBundle() != null) {
                     logger.error("Boundle '" + event.getBundle().getSymbolicName() +
                             "' has been stopped because of the error.");
