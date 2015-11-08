@@ -47,9 +47,9 @@ public class IMSessionManagerImpl implements IMSessionManager {
             try {
                 createSessionFor(botName, pluginsManager);
             } catch (ConfigurationException e) {
-                logger.error("Session configuration error: " + e);
+                logger.error("Session configuration error: " + e, e);
             } catch (Exception e) {
-                logger.error("Session creation error: " + e);
+                logger.error("Session creation error: " + e, e);
             }
         }
     }

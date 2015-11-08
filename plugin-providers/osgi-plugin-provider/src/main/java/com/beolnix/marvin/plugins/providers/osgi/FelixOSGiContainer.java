@@ -11,19 +11,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.felix.fileinstall.internal.DirectoryWatcher;
 import org.apache.felix.framework.FrameworkFactory;
 import org.apache.felix.main.AutoProcessor;
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 import org.osgi.framework.*;
 import org.osgi.framework.launch.Framework;
 
+import static org.osgi.framework.FrameworkEvent.ERROR;
+import static org.osgi.framework.FrameworkEvent.WARNING;
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by beolnix on 31/10/15.
  */
-public class FelixOSGiContainer implements ServiceListener {
+public class FelixOSGiContainer implements ServiceListener, FrameworkListener {
 
     // dependencies
     private final ConfigurationProvider configurationProvider;
@@ -33,6 +34,7 @@ public class FelixOSGiContainer implements ServiceListener {
     private BundleContext bundleContext = null;
     private List<PluginsListener> pluginsListenerList = new ArrayList<>();
     final private List<IMPlugin> pluginList = new ArrayList<>();
+    final private Map<String, Logger> pluginLoggersMap = new HashMap<>();
 
     // constants
     private final static Logger logger = Logger.getLogger(FelixOSGiContainer.class);
@@ -74,7 +76,7 @@ public class FelixOSGiContainer implements ServiceListener {
             file.mkdirs();
         }
 
-        if(!file.isDirectory() || !file.canWrite())
+        if (!file.isDirectory() || !file.canWrite())
             throw new PluginsProviderConfigurationException("can't write to dir with path: " + file.getAbsolutePath());
     }
 
@@ -111,6 +113,35 @@ public class FelixOSGiContainer implements ServiceListener {
         }
     }
 
+    @Override
+    public void frameworkEvent(FrameworkEvent event) {
+        switch (event.getType()) {
+            case ERROR:
+                if (event.getThrowable() != null) {
+                    logger.error(event.getThrowable().getMessage(), event.getThrowable());
+                    pluginsListenerList.forEach(l -> l.onError(event.getThrowable()));
+                } else if (event.getBundle() != null) {
+                    logger.error("Boundle '" + event.getBundle().getSymbolicName() +
+                            "' has been stopped because of the error.");
+                }
+                break;
+            case WARNING:
+                if (event.getThrowable() != null) {
+                    logger.error(event.getThrowable().getMessage(), event.getThrowable());
+                } else if (event.getBundle() != null) {
+                    logger.error("Boundle '" + event.getBundle().getSymbolicName() +
+                            "' has been stopped because of the error.");
+                }
+                break;
+            default:
+                if (event.getThrowable() != null) {
+                    logger.error(event.getThrowable().getMessage(), event.getThrowable());
+                }
+                break;
+        }
+    }
+
+
     private Properties getConfig() throws PluginsProviderConfigurationException {
         PluginsSettings ps = null;
         try {
@@ -129,7 +160,7 @@ public class FelixOSGiContainer implements ServiceListener {
         configProps.setProperty(Constants.FRAMEWORK_STORAGE, ps.getCachePath());
         configProps.setProperty(
                 Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
-                        "com.beolnix.marvin.im.api; version=1.0.0," +
+                "com.beolnix.marvin.im.api; version=1.0.0," +
                         "com.beolnix.marvin.im.api.model; version=1.0.0," +
                         "com.beolnix.marvin.im.api.error; version=1.0.0," +
                         "com.beolnix.marvin.config.api; version=1.0.0," +
@@ -162,6 +193,7 @@ public class FelixOSGiContainer implements ServiceListener {
             framework.init();
             AutoProcessor.process(configProps, framework.getBundleContext());
             framework.getBundleContext().addServiceListener(this);
+            framework.getBundleContext().addFrameworkListener(this);
             bundleContext = framework.getBundleContext();
             framework.start();
 
@@ -172,6 +204,7 @@ public class FelixOSGiContainer implements ServiceListener {
             throw new PluginsProviderConfigurationException(ex);
         }
     }
+
 
     public void registerPluginsListener(PluginsListener pluginsListener) {
         synchronized (pluginList) {
