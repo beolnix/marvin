@@ -55,6 +55,11 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
     }
 
     @Override
+    public void onError(String s, Throwable throwable) {
+        logger.warn("Plugin: " + s + " can't be deployed because of: " + throwable.getMessage());
+    }
+
+    @Override
     public void deployPlugin(IMPlugin imPlugin) {
         imPlugin.setIMSessionManager(imSessionManager);
         pluginsMap.put(imPlugin.getPluginName(), imPlugin);
