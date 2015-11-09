@@ -2,25 +2,25 @@ package com.beolnix.marvin.plugins.providers.osgi;
 
 import com.beolnix.marvin.config.api.ConfigurationProvider;
 import com.beolnix.marvin.config.api.error.ConfigurationException;
-import com.beolnix.marvin.config.api.model.Configuration;
 import com.beolnix.marvin.config.api.model.PluginsSettings;
 import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.IMPlugin;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.felix.fileinstall.internal.DirectoryWatcher;
 import org.apache.felix.framework.FrameworkFactory;
 import org.apache.felix.main.AutoProcessor;
 import org.apache.log4j.*;
 import org.osgi.framework.*;
 import org.osgi.framework.launch.Framework;
+import static java.nio.file.StandardCopyOption.*;
 
 import static org.osgi.framework.FrameworkEvent.ERROR;
 import static org.osgi.framework.FrameworkEvent.WARNING;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -69,7 +69,7 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
     }
 
     private void checkForWritable(String dirPath, String dirName) throws PluginsProviderConfigurationException {
-        if (StringUtils.isBlank(dirPath))
+        if (isBlank(dirPath))
             throw new PluginsProviderConfigurationException(dirName + " must be provided");
 
         File file = new File(dirPath);
@@ -79,6 +79,14 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
         if (!file.isDirectory() || !file.canWrite())
             throw new PluginsProviderConfigurationException("can't write to dir with path: " + file.getAbsolutePath());
+    }
+
+    private boolean isBlank(String value) {
+        if (value == null) {
+            return true;
+        }
+
+        return value.replace(" ", "").length() == 0;
     }
 
     @Override
@@ -217,9 +225,8 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
         try {
             PluginsSettings ps = configurationProvider.getPluginSettings();
-            FileUtils.copyFile(new File(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                    new File(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                    true);
+            Files.copy(Paths.get(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
+                    Paths.get(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"), REPLACE_EXISTING);
         } catch (IOException | ConfigurationException e) {
             throw new PluginsProviderConfigurationException(e);
         }

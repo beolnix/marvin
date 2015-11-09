@@ -3,14 +3,10 @@ package com.beolnix.marvin.plugins.providers.osgi;
 
 import com.beolnix.marvin.config.api.ConfigurationProvider;
 
-import com.beolnix.marvin.config.api.error.ConfigurationException;
-import com.beolnix.marvin.config.api.model.Configuration;
-import com.beolnix.marvin.config.api.model.PluginsSettings;
 import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import com.beolnix.marvin.plugins.api.PluginsProvider;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.File;
