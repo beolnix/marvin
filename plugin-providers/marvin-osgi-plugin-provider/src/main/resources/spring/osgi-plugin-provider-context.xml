@@ -14,5 +14,8 @@
     <bean id="felixOSGIContainer" class="com.beolnix.marvin.plugins.providers.osgi.FelixOSGIContainer"
             factory-method="createNewInstance">
         <constructor-arg name="configurationProvider" ref="configProvider"/>
+        <constructor-arg name="frameworkFactory" ref="frameworkFactory"/>
     </bean>
+
+    <bean id="frameworkFactory" class="org.apache.felix.framework.FrameworkFactory"/>
 </beans>

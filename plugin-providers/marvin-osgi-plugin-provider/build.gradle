@@ -8,6 +8,7 @@ dependencies {
 
     compile "org.springframework:spring-core:${SPRING_VERSION}"
     compile "org.springframework:spring-beans:${SPRING_VERSION}"
+    compile "org.springframework:spring-context:${SPRING_VERSION}"
 
     compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"
     compile "org.apache.felix:org.apache.felix.main:${FELIX_VERSION}"

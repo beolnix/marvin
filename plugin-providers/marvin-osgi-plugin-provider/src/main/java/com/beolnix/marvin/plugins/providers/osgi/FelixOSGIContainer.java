@@ -7,7 +7,7 @@ import com.beolnix.marvin.plugins.api.PluginsListener;
 import com.beolnix.marvin.plugins.api.IMPlugin;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;
 import org.apache.felix.fileinstall.internal.DirectoryWatcher;
-import org.apache.felix.framework.FrameworkFactory;
+import org.osgi.framework.launch.FrameworkFactory;
 import org.apache.felix.main.AutoProcessor;
 import org.apache.log4j.*;
 import org.osgi.framework.*;
@@ -28,8 +28,10 @@ import java.util.*;
  */
 public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
+    private static final String FELIX_FILEINSTALL_ARTIFACT = "org.apache.felix.fileinstall-3.1.10.jar";
     // dependencies
     private final ConfigurationProvider configurationProvider;
+    private final FrameworkFactory frameworkFactory;
 
     // state
     private Framework framework = null;
@@ -40,13 +42,14 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
     // constants
     private final static Logger logger = Logger.getLogger(FelixOSGIContainer.class);
 
-    private FelixOSGIContainer(ConfigurationProvider configurationProvider) {
+    private FelixOSGIContainer(ConfigurationProvider configurationProvider, FrameworkFactory frameworkFactory) {
         this.configurationProvider = configurationProvider;
+        this.frameworkFactory = frameworkFactory;
     }
 
-    public static FelixOSGIContainer createNewInstance(ConfigurationProvider configurationProvider) throws ConfigurationException {
+    public static FelixOSGIContainer createNewInstance(ConfigurationProvider configurationProvider, FrameworkFactory frameworkFactory) throws ConfigurationException {
         try {
-            FelixOSGIContainer felixOSGIContainer = new FelixOSGIContainer(configurationProvider);
+            FelixOSGIContainer felixOSGIContainer = new FelixOSGIContainer(configurationProvider, frameworkFactory);
             felixOSGIContainer.checkConfiguration();
             felixOSGIContainer.initFramework();
             return felixOSGIContainer;
@@ -157,7 +160,7 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
     }
 
 
-    private Properties getConfig() throws PluginsProviderConfigurationException {
+    private Map<String, String> getConfig() throws PluginsProviderConfigurationException {
         PluginsSettings ps = null;
         try {
             ps = configurationProvider.getPluginSettings();
@@ -169,11 +172,11 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
             throw new PluginsProviderConfigurationException("PluginSettings are not provided");
         }
 
-        Properties configProps = new Properties();
+        Map<String, String> configProps = new HashMap<>();
 
-        configProps.setProperty(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, ps.getSystemDeployPath());
-        configProps.setProperty(Constants.FRAMEWORK_STORAGE, ps.getCachePath());
-        configProps.setProperty(
+        configProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, ps.getSystemDeployPath());
+        configProps.put(Constants.FRAMEWORK_STORAGE, ps.getCachePath());
+        configProps.put(
                 Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
                 "com.beolnix.marvin.im.api; version=1.0.0," +
                         "com.beolnix.marvin.im.api.model; version=1.0.0," +
@@ -184,13 +187,13 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
                         "com.beolnix.marvin.plugins.api.error; version=1.0.0," +
                         "com.beolnix.marvin.plugins.api; version=1.0.0"
         );
-        configProps.setProperty(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY,
+        configProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY,
                 AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE + ", " + AutoProcessor.AUTO_DEPLOY_START_VALUE);
-        configProps.setProperty(DirectoryWatcher.DIR, new File(ps.getPluginsDeployPath()).getAbsolutePath());
-        configProps.setProperty(DirectoryWatcher.TMPDIR, new File(ps.getTmpPath()).getAbsolutePath());
-        configProps.setProperty(DirectoryWatcher.POLL, "2000");
-        configProps.setProperty(IMPlugin.LOGS_PATH_PARAM_NAME, ps.getLogsPath());
-        configProps.setProperty(IMPlugin.DIRECTORY_PARAM_NAME, ps.getDirPath());
+        configProps.put(DirectoryWatcher.DIR, new File(ps.getPluginsDeployPath()).getAbsolutePath());
+        configProps.put(DirectoryWatcher.TMPDIR, new File(ps.getTmpPath()).getAbsolutePath());
+        configProps.put(DirectoryWatcher.POLL, "2000");
+        configProps.put(IMPlugin.LOGS_PATH_PARAM_NAME, ps.getLogsPath());
+        configProps.put(IMPlugin.DIRECTORY_PARAM_NAME, ps.getDirPath());
 
         logger.info("configuring autodeploy for dir " + new File(ps.getPluginsDeployPath()).getAbsolutePath());
 
@@ -200,12 +203,11 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
 
     private void initFramework() throws PluginsProviderConfigurationException {
-        Properties configProps = getConfig();
+        Map<String, String> configProps = getConfig();
         copySystemBundles();
         try {
             logger.info("starting osgi container");
-            FrameworkFactory factory = new FrameworkFactory();
-            framework = factory.newFramework(configProps);
+            framework = frameworkFactory.newFramework(configProps);
             framework.init();
             AutoProcessor.process(configProps, framework.getBundleContext());
             framework.getBundleContext().addServiceListener(this);
@@ -225,8 +227,8 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
         try {
             PluginsSettings ps = configurationProvider.getPluginSettings();
-            Files.copy(Paths.get(ps.getLibsPath() + "/org.apache.felix.fileinstall-3.1.10.jar"),
-                    Paths.get(ps.getSystemDeployPath() + "/org.apache.felix.fileinstall-3.1.10.jar"), REPLACE_EXISTING);
+            Files.copy(Paths.get(ps.getLibsPath() + "/" + FELIX_FILEINSTALL_ARTIFACT),
+                    Paths.get(ps.getSystemDeployPath() + "/" + FELIX_FILEINSTALL_ARTIFACT), REPLACE_EXISTING);
         } catch (IOException | ConfigurationException e) {
             throw new PluginsProviderConfigurationException(e);
         }
