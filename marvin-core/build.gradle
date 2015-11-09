@@ -5,9 +5,7 @@ dependencies {
     compile project(':plugin-providers:marvin-osgi-plugin-provider')
 
     compile "com.beolnix:args-parser:0.3"
-    compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
-
-    compile fileTree(dir:'lib', include: '*.jar')
+    compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"    
 
     compile "org.springframework:spring-core:${SPRING_VERSION}"
     compile "org.springframework:spring-beans:${SPRING_VERSION}"
