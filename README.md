@@ -57,7 +57,7 @@ Basically you just need to implement:
 You also need to pack it as a correct osgi boundle. Please use [echo-plugin](https://github.com/beolnix/marvin-echo-plugin) and [newyear-plugin](https://github.com/beolnix/marvin-newyear-plugin) as  examples.
 
 ## Plugins Integration testing
-[marvin-plugin-int-test](https://github.com/beolnix/marvin-plugin-int-test) - Example of plugin integration test
+[marvin-osgi-plugins-int-test](https://github.com/beolnix/marvin-osgi-plugins-int-test) - Example of plugin integration test
 
 
 
