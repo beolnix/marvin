@@ -1,16 +1,3 @@
-apply plugin: 'maven'
-
-project.group = 'com.beolnix.marvin'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.version = version
-            pom.artifactId = "plugin-utils"
-            pom.groupId = project.group
-        }
-    }
-}
 
 dependencies {
     compile "com.beolnix.marvin:api:0.2-SNAPSHOT"

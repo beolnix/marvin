@@ -32,8 +32,6 @@ sonarqube {
     }
 }
 
-
-
 repositories {
     maven {
         url "http://nexus.beolnix.com/content/repositories/releases/"
@@ -92,11 +90,11 @@ subprojects {
 
     apply plugin: 'idea'
     apply plugin: 'groovy'
+    apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'jacoco'
     
     project.group = 'com.beolnix.marvin'
-
     project.version = version
 
     jacoco {
@@ -107,6 +105,16 @@ subprojects {
     sonarqube {
         properties {
             property "sonar.projectName", "$project.name"
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.groupId = project.group
+                pom.artifactId = project.name
+                pom.version = version
+            }
         }
     }
 

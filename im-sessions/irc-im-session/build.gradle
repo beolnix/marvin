@@ -1,18 +1,3 @@
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'maven'
-
-project.group = 'com.beolnix.marvin'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.version = version
-            pom.artifactId = "irc-im-session"
-            pom.groupId = project.group
-        }
-    }
-}
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
@@ -32,18 +17,3 @@ dependencies {
     testCompile "org.springframework:spring-test:${SPRING_VERSION}"
 }
 
-jar {
-    def  cp  = ""
-    configurations.runtime.resolve().flatten() { File file
-        -> file.name }.unique().each { aJar ->  cp = cp + "lib/$aJar" }
-
-    manifest {
-        attributes 'Class-Path' : cp
-
-    }
-}
-
-task copyToLib(dependsOn: configurations.runtime, type: Copy) {
-    into "$buildDir/libs/lib"
-    from configurations.runtime
-}
