@@ -4,6 +4,7 @@ import com.beolnix.marvin.config.api.BotSettings;
 import com.beolnix.marvin.im.api.IMSession;
 import com.beolnix.marvin.im.api.IMSessionManager;
 import com.beolnix.marvin.im.api.IMSessionProvider;
+import com.beolnix.marvin.im.irc.impl.IrcMessageListenerImpl;
 import com.beolnix.marvin.im.irc.model.IrcBotSettings;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 
@@ -22,8 +23,8 @@ public class IrcIMSessionProvider implements IMSessionProvider {
     @Override
     public IMSession createNewSession(BotSettings botSettings, PluginsManager pluginsManager) {
         IrcBotSettings ircBotSettings = new IrcBotSettings(botSettings);
-        IrcMessageListener ircMessageListener = new IrcMessageListener(ircBotSettings.getName(), pluginsManager);
-        return IrcIMSession.createNewInstance(ircBotSettings, ircMessageListener);
+        IrcMessageListenerImpl ircMessageListenerImpl = new IrcMessageListenerImpl(ircBotSettings.getName(), pluginsManager);
+        return IrcIMSession.createNewInstance(ircBotSettings, ircMessageListenerImpl);
     }
 
     @Override

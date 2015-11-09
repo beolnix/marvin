@@ -29,6 +29,7 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
     private Logger logger = Logger.getLogger(getClass().getName());
     public static final String PROTOCOL = "IRC";
     public static final String COMMAND_SYMBOL = "!";
+    public static final int CONNECTION_TIMEOUT = 60 * 1000;
 
     private IrcIMSession(IrcBotSettings ircSettings, IrcMessageListener ircMessageListener) {
         this.ircSettings = ircSettings;
@@ -89,11 +90,11 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
             } else {
                 sendPrivateMessage(outMsg);
             }
+
+            logger.trace("Bot with name '" + getBotName() + "' has sent the message successfully.");
         } catch (Exception e) {
             logger.error("Bot with name '" + getBotName() + "' got error while was sending message: " + e.getMessage());
             logger.error(e);
-        } finally {
-            logger.trace("Bot with name '" + getBotName() + "' successfully has sent the message.");
         }
     }
 
@@ -119,17 +120,7 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
     }
 
     private boolean isBlank(String value) {
-        if (value == null) {
-            return true;
-        }
-
-        String withoutSpaces = value.replace(" ", "");
-
-        if (withoutSpaces.length() == 0) {
-            return true;
-        }
-
-        return false;
+        return value == null || value.replace(" ", "").length() == 0;
     }
 
     @Override
@@ -163,7 +154,7 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
         session.addIRCEventListener(ircMessageListener);
         try {
             // give jerklib a chance to establish a connection
-            Thread.sleep(45000);
+            Thread.sleep(CONNECTION_TIMEOUT);
         } catch (InterruptedException e) {}
         if (!session.isConnected()) {
             state = IMSessionState.DISCONNECTED;

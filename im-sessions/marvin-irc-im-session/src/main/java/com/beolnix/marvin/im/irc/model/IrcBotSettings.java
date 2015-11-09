@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by beolnix on 01/11/15.
  */
-public class IrcBotSettings implements com.beolnix.marvin.config.api.BotSettings {
+public class IrcBotSettings implements BotSettings {
 
     // dependencies
     private final BotSettings botSettings;
