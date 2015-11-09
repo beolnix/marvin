@@ -1,6 +1,7 @@
 
 dependencies {
-    compile "com.beolnix.marvin:marvin-api:0.2-SNAPSHOT"
+    compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
+
     compile project(':marvin-im-session-utils')
 
     compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
