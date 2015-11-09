@@ -5,8 +5,8 @@ Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC
 ## Project details
 | Version | State | Code link | Sonar report link |
 | --- | --- | --- | --- |
-| 0.1 | Stable | [0.1-release](https://github.com/beolnix/marvin-core/releases/tag/0.1-release) |  |
-| 0.2-SNAPSHOT | In dev | [master](https://github.com/beolnix/marvin-core/) | [report](http://sonar.beolnix.com/dashboard/index/marvin) |
+| 0.1 | Stable | [0.1-release](https://github.com/beolnix/marvin/releases/tag/0.1-release) |  |
+| 0.2-SNAPSHOT | In dev | [master](https://github.com/beolnix/marvin/) | [report](http://sonar.beolnix.com/dashboard/index/marvin) |
 
 ## Requirements
 It was tested on Mac OS X and Ubuntu 14.04. 
@@ -55,6 +55,11 @@ Basically you just need to implement:
 - The `Activator` to register your plugin in the system on deploy
 
 You also need to pack it as a correct osgi boundle. Please use [echo-plugin](https://github.com/beolnix/marvin-echo-plugin) and [newyear-plugin](https://github.com/beolnix/marvin-newyear-plugin) as  examples.
+
+## Plugins Integration testing
+[marvin-plugin-int-test](https://github.com/beolnix/marvin-plugin-int-test) - Example of plugin integration test
+
+
 
 
 
