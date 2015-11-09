@@ -1,25 +1,18 @@
 
 dependencies {
+    compile "com.beolnix.marvin:marvin-api:0.2-SNAPSHOT"
+    compile project(':marvin-im-session-utils')
+
     compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
 
     compile fileTree(dir:'lib', include: '*.jar')
 
-    compile "com.beolnix.marvin:api:0.2-SNAPSHOT"
-
     compile "org.springframework:spring-core:${SPRING_VERSION}"
     compile "org.springframework:spring-beans:${SPRING_VERSION}"
-
-    compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"
-    compile "org.apache.felix:org.apache.felix.main:${FELIX_VERSION}"
-    compile "org.apache.felix:org.apache.felix.fileinstall:${FELIX_FILEINSTALL_VERSION}"
-
-    compile "commons-lang:commons-lang:${COMMONS_LANG_VERSION}"
-    compile "commons-io:commons-io:${COMMONS_IO_VERSION}"
 
     compile "log4j:log4j:${LOG4J_VERSION}"
 
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.springframework:spring-test:${SPRING_VERSION}"
 }
-
 

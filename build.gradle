@@ -51,13 +51,17 @@ configurations.all {
 
 dependencies {
 
-    compile group: 'com.beolnix.marvin', name: 'api', version: MARVIN_API_VERSION, changing: true
+    compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
 
-    compile project(':core')
-    compile project(':plugin-utils')
-    compile project(':im-session-utils')
+    compile project(':marvin-core')
+    compile project(':marvin-plugin-utils')
+    compile project(':marvin-im-session-utils')
 
     project(':im-sessions').getAllprojects().each {
+        compile (it)
+    }
+
+    project(':plugin-providers').getAllprojects().each {
         compile (it)
     }
 }
@@ -108,16 +112,6 @@ subprojects {
         }
     }
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                pom.groupId = project.group
-                pom.artifactId = project.name
-                pom.version = version
-            }
-        }
-    }
-
     repositories {
         maven {
             url "http://nexus.beolnix.com/content/repositories/releases/"
@@ -133,6 +127,10 @@ subprojects {
     uploadArchives {
         repositories {
             mavenDeployer {
+                pom.groupId = project.group
+                pom.artifactId = project.name
+                pom.version = version
+
                 if (version.toString().endsWith("SNAPSHOT")) {
                     repository(url: "http://nexus.beolnix.com/content/repositories/snapshots/") {
                         authentication(userName: System.getenv()['REPO_USER'], password: System.getenv()['REPO_SNAPSHOT_PASSWORD'])
@@ -182,7 +180,7 @@ subprojects {
 }
 
 task packageMarvin(dependsOn: jar) << {
-    project(':core').copyToLib.execute()
+    project(':marvin-core').copyToLib.execute()
     copyApp.execute()
     copyConfig.execute()
     copyScripts.execute()
@@ -209,9 +207,9 @@ task copyConfig(type: Copy) {
 
 task copyApp(type: Copy) {
     into("$distrDir")
-    from('core/build/libs')
+    from('marvin-core/build/libs')
     rename { filename ->
-        filename.replace "core-${version}", 'core'
+        filename.replace "marvin-core-${version}", 'core'
     }
 }
 
