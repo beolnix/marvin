@@ -18,26 +18,21 @@ import java.io.IOException;
 public class OSGIPluginsProvider implements PluginsProvider {
 
     // dependencies
-    private final ConfigurationProvider configurationProvider;
     private final FelixOSGIContainer felixOSGIContainer;
 
     // constants
     private final static Logger logger = Logger.getLogger(OSGIPluginsProvider.class);
 
 
-    private OSGIPluginsProvider(ConfigurationProvider configurationProvider,
-                                FelixOSGIContainer felixOSGIContainer) {
-        this.configurationProvider = configurationProvider;
+    private OSGIPluginsProvider(FelixOSGIContainer felixOSGIContainer) {
         this.felixOSGIContainer = felixOSGIContainer;
     }
 
-    public static PluginsProvider createNewInstance(ConfigurationProvider configurationProvider,
-                                                    FelixOSGIContainer felixOSGIContainer,
+    public static PluginsProvider createNewInstance(FelixOSGIContainer felixOSGIContainer,
                                                     PluginsManager pluginsManager) throws PluginsProviderConfigurationException {
 
-        OSGIPluginsProvider pluginsProvider = new OSGIPluginsProvider(configurationProvider, felixOSGIContainer);
+        OSGIPluginsProvider pluginsProvider = new OSGIPluginsProvider(felixOSGIContainer);
         pluginsManager.registerPluginsProvider(pluginsProvider);
-
         return pluginsProvider;
     }
 

@@ -9,7 +9,6 @@
           factory-method="createNewInstance">
         <constructor-arg name="felixOSGIContainer" ref="felixOSGIContainer"/>
         <constructor-arg name="pluginsManager" ref="pluginManager"/>
-        <constructor-arg name="configurationProvider" ref="configProvider"/>
     </bean>
 
     <bean id="felixOSGIContainer" class="com.beolnix.marvin.plugins.providers.osgi.FelixOSGIContainer"
