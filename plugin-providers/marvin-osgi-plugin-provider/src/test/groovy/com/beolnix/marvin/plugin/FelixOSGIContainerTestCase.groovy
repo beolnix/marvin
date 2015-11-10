@@ -32,7 +32,7 @@ class FelixOSGIContainerTestCase {
     }
 
     @Test
-    public void testServiceChanged() {
+    public void testServiceChanged1() {
         def isDeployPluginExecuted = false
         def listener = [
                 deployPlugin: {
@@ -63,6 +63,40 @@ class FelixOSGIContainerTestCase {
         container.serviceChanged(event)
 
         assertTrue(isDeployPluginExecuted)
+    }
+
+    @Test
+    public void testServiceChanged2() {
+        def isUnDeployPluginExecuted = false
+        def listener = [
+                undeployPlugin: {
+                    isUnDeployPluginExecuted = true
+                }
+        ] as PluginsListener
+        def configProvider = [
+                getPluginSettings: { getPluginSettings() }
+        ] as ConfigurationProvider
+
+        FelixOSGIContainer container = FelixOSGIContainer.createNewInstance(configProvider, new org.apache.felix.framework.FrameworkFactory())
+        container.registerPluginsListener(listener)
+
+        def plugin = [
+                getPluginName: {
+                    "testPlugin"
+                }
+        ] as IMPlugin
+        def bundleContext = [
+                getService : {
+                    plugin
+                }
+        ] as BundleContext
+
+        def serviceRef = [] as ServiceReference
+        def event = new ServiceEvent(4, serviceRef)
+        container.bundleContext = bundleContext
+        container.serviceChanged(event)
+
+        assertTrue(isUnDeployPluginExecuted)
     }
 
     private PluginsSettings getPluginSettings() {
