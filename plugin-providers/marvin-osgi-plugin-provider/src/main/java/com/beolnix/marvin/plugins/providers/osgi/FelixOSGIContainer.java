@@ -30,11 +30,12 @@ public class FelixOSGIContainer implements ServiceListener, FrameworkListener {
 
     // dependencies
     private final Framework framework;
-    private final BundleContext bundleContext;
+
 
     // state
     private List<PluginsListener> pluginsListenerList = new ArrayList<>();
     final private List<IMPlugin> pluginList = new ArrayList<>();
+    private BundleContext bundleContext;
 
     // constants
     private final static Utils utils = new Utils();
