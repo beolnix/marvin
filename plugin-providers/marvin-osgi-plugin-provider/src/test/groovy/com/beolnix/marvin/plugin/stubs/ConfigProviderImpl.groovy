@@ -32,7 +32,6 @@ class ConfigProviderImpl implements ConfigurationProvider {
         ps.systemDeployPath = "build/system"
         ps.tmpPath = "build/tmp"
         ps.pollPeriod = 200
-        ps.
         return ps
     }
 
