@@ -7,6 +7,7 @@ import com.beolnix.marvin.plugins.api.IMPlugin;
 import com.beolnix.marvin.plugins.api.error.PluginsProviderConfigurationException;
 import org.apache.felix.fileinstall.internal.DirectoryWatcher;
 import org.apache.felix.main.AutoProcessor;
+import org.apache.log4j.Logger;
 import org.osgi.framework.Constants;
 
 import java.io.File;
@@ -24,6 +25,8 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
  * Created by DAtmakin on 11/10/2015.
  */
 public class Utils {
+    private final static Logger logger = Logger.getLogger(Utils.class);
+
     public void checkConfiguration(ConfigurationProvider configurationProvider) throws PluginsProviderConfigurationException {
         try {
             PluginsSettings ps = configurationProvider.getPluginSettings();
@@ -103,6 +106,9 @@ public class Utils {
         configProps.put(DirectoryWatcher.POLL, ps.getPollPeriod().toString());
         configProps.put(IMPlugin.LOGS_PATH_PARAM_NAME, ps.getLogsPath());
         configProps.put(IMPlugin.DIRECTORY_PARAM_NAME, ps.getDirPath());
+
+        logger.info("auto deploy is configured for dir: " + ps.getPluginsDeployPath());
+        logger.info("auto deploy dir is scanned every: " + ps.getPollPeriod());
 
         return configProps;
     }

@@ -12,15 +12,10 @@ import org.apache.felix.main.AutoProcessor;
 import org.apache.log4j.*;
 import org.osgi.framework.*;
 import org.osgi.framework.launch.Framework;
-import static java.nio.file.StandardCopyOption.*;
 
 import static org.osgi.framework.FrameworkEvent.ERROR;
 import static org.osgi.framework.FrameworkEvent.WARNING;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
