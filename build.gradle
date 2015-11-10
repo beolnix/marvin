@@ -16,7 +16,7 @@ ext.JAXB_VERSION = '2.1'
 ext.COMMONS_LANG_VERSION = '2.6'
 ext.COMMONS_IO_VERSION = '2.1'
 def JACOCO_TOOL_VERSION = '0.7.1.201405082137'
-def MARVIN_API_VERSION = '0.2-SNAPSHOT'
+def MARVIN_API_VERSION = '0.2'
 ext.MARVIN_API_VERSION = MARVIN_API_VERSION
 
 sourceCompatibility = JAVA_VERSION
@@ -24,7 +24,7 @@ targetCompatibility = JAVA_VERSION
 System.setProperty("file.encoding", "UTF-8")
 
 def distrDir = "$buildDir/distr"
-def version = '0.2-SNAPSHOT'
+def version = '0.2'
 
 sonarqube {
     properties {
