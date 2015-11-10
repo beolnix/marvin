@@ -2,7 +2,7 @@
 <configuration>
     <bot name="ircBot1" protocol="IRC">
         <property name="nickname">marvin|irc</property>
-        <property name="channelName">dev</property>
+        <property name="channelName">#dev</property>
         <property name="channelPassword">devdev</property>
         <property name="serverName">irc.dalnet.ru</property>
         <property name="portNumber">6665</property>
