@@ -68,7 +68,7 @@ class XMLConfigurationProviderTestCase {
         pluginSettings.tmpPath = 'system/bundlesTmp'
         pluginSettings.logsPath = 'logs'
         pluginSettings.dirPath = 'system/plugins-home'
-        pluginSettings.pollPeriod = '2000'
+        pluginSettings.pollPeriod = 2000
         config.pluginSettings = pluginSettings
 
         config
