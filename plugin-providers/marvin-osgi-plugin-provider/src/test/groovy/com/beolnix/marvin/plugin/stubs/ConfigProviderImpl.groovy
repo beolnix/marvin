@@ -23,14 +23,16 @@ class ConfigProviderImpl implements ConfigurationProvider {
     @Override
     PluginsSettings getPluginSettings() throws ConfigurationException {
         PluginsSettings ps = new PluginsSettings()
-        ps.setCachePath("build/cache")
-        ps.setDirPath("build/dir")
-        ps.setLibsPath("lib")
-        ps.setLogsPath("build/logs")
-        ps.setManagerPassword("test")
-        ps.setPluginsDeployPath("build/plugins")
-        ps.setSystemDeployPath("build/system")
-        ps.setTmpPath("build/tmp")
+        ps.cachePath = "build/cache"
+        ps.dirPath = "build/dir"
+        ps.libsPath = "lib"
+        ps.logsPath = "build/logs"
+        ps.managerPassword = "test"
+        ps.pluginsDeployPath = "build/plugins"
+        ps.systemDeployPath = "build/system"
+        ps.tmpPath = "build/tmp"
+        ps.pollPeriod = 200
+        ps.
         return ps
     }
 
