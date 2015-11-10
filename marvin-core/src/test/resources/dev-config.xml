@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
     <bot name="ircBot1" protocol="IRC">
-        <property value="marvin|irc" name="nickname"/>
-        <property value="#dev" name="channelName"/>
-        <property value="devdev" name="channelPassword"/>
-        <property value="irc.san.ru" name="serverName"/>
-        <property value="6669" name="portNumber"/>
-        <property value="CP1251" name="charset"/>
+        <property name="nickname">marvin|irc</property>
+        <property name="channelName">#dev</property>
+        <property name="channelPassword">devdev</property>
+        <property name="serverName">irc.san.ru</property>
+        <property name="portNumber">6669</property>
+        <property name="charset">CP1251</property>
     </bot>
     <pluginSettings>
         <managerPassword>test</managerPassword>
@@ -17,5 +17,6 @@
         <tmpPath>build/system/bundlesTmp</tmpPath>
         <logsPath>build/logs</logsPath>
         <dirPath>build/system/plugins-home</dirPath>
+        <pollPeriod>2000</pollPeriod>
     </pluginSettings>
 </configuration>

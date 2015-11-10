@@ -17,5 +17,6 @@
         <tmpPath>system/bundlesTmp</tmpPath>
         <logsPath>logs</logsPath>
         <dirPath>system/plugins-home</dirPath>
+        <pollPeriod>2000</pollPeriod>
     </pluginSettings>
 </configuration>
