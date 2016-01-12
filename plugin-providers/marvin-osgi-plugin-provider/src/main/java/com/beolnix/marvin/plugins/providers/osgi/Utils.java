@@ -108,7 +108,7 @@ public class Utils {
         configProps.put(IMPlugin.DIRECTORY_PARAM_NAME, ps.getDirPath());
 
         logger.info("auto deploy is configured for dir: " + ps.getPluginsDeployPath());
-        logger.info("auto deploy dir is scanned every: " + ps.getPollPeriod());
+        logger.info("auto deploy dir is triggered every: " + ps.getPollPeriod());
 
         return configProps;
     }

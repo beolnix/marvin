@@ -1,7 +1,7 @@
-
 dependencies {
     compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
     compile project(':im-sessions:marvin-irc-im-session')
+    compile project(':im-sessions:marvin-skype-im-session')
     compile project(':plugin-providers:marvin-osgi-plugin-provider')
 
     compile "com.beolnix:args-parser:0.3"
