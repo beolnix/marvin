@@ -23,6 +23,9 @@ import org.apache.log4j.Logger;
 
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by beolnix on 11/01/16.
@@ -34,11 +37,13 @@ public class SkypeIMSession implements IMSession {
     public static final String PROTOCOL = "SKYPE";
     public static final String COMMAND_SYMBOL = "!";
     public static final int CONNECTION_TIMEOUT = 60 * 1000;
+    public static final long RECONNECTION_PERIOD = 1000 * 60 * 60; // 1h in mls
 
     // dependencies
     private final SkypeBotSettings botSettings;
     private final PluginsManager pluginManager;
     private final IMSessionUtils imSessionUtils;
+    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     // internal state
     private Skype skype = null;
@@ -118,6 +123,9 @@ public class SkypeIMSession implements IMSession {
             registerListener();
             state = IMSessionState.CONNECTED;
             logger.info("skype bot " + botSettings.getName() + " has been connected successfully.");
+
+            // reconnect every hour to prevent session expiration
+            executorService.schedule(this::reconnect, 1, TimeUnit.HOURS);
         } catch (Exception e) {
             state = IMSessionState.DISCONNECTED;
             this.errorMsg = e.getMessage();
@@ -182,10 +190,16 @@ public class SkypeIMSession implements IMSession {
         try {
             skype.logout();
             state = IMSessionState.DISCONNECTED;
+            skype = null;
         } catch (Exception e) {
             state = IMSessionState.ERROR;
             this.errorMsg = e.getMessage();
         }
+    }
+
+    private void reconnect() {
+        disconnect();
+        connect();
     }
 
     @Override
