@@ -6,7 +6,9 @@ dependencies {
 
     compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
 
-    compile "com.samczsun:skype4j:0.1.5-SNAPSHOT"
+    // use the some stable build from the latest
+    //    compile "com.samczsun:skype4j:0.1.5-SNAPSHOT"
+    compile fileTree(dir:'lib', include: '*.jar')
 
     compile "org.springframework:spring-core:${SPRING_VERSION}"
     compile "org.springframework:spring-beans:${SPRING_VERSION}"
