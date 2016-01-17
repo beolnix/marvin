@@ -1,6 +1,7 @@
 package com.beolnix.marvin.plugins
 
-import com.beolnix.marvin.im.api.model.IMIncomingMessage
+import com.beolnix.marvin.config.api.ConfigurationProvider
+import com.beolnix.marvin.config.api.model.PluginsSettings
 import com.beolnix.marvin.im.api.model.IMIncomingMessageBuilder
 import com.beolnix.marvin.plugins.api.IMPlugin
 import com.beolnix.marvin.plugins.api.IMPluginState
@@ -22,6 +23,11 @@ class PluginsManagerImplTestCase {
                 runnable.run()
             }
     ] as Executor
+
+    def configProvider = [
+        "getPluginSettings": new PluginsSettings()
+    ] as ConfigurationProvider
+
     def incomingMessage = new IMIncomingMessageBuilder()
         .withProtocol("test")
         .withCommandName("test")
@@ -57,7 +63,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertTrue(isProcessCalled)
@@ -96,7 +102,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertTrue(isProcessCalled)
@@ -135,7 +141,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertTrue(isProcessCalled)
@@ -174,7 +180,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertFalse(isProcessCalled)
@@ -213,7 +219,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertFalse(isProcessCalled)
@@ -249,7 +255,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         pluginsManager.process(incomingMessage)
         assertFalse(isProcessCalled)
@@ -267,7 +273,7 @@ class PluginsManagerImplTestCase {
                     "test plugin"
                 }
         ] as IMPlugin
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.deployPlugin(plugin)
         assertTrue(pluginsManager.pluginsMap.containsKey("test plugin"))
         pluginsManager.undeployPlugin(plugin)
@@ -282,7 +288,7 @@ class PluginsManagerImplTestCase {
                     isRegisterPluginsListenerExecuted = true
                 }
         ] as PluginsProvider
-        def pluginsManager = new PluginsManagerImpl(null, executor)
+        def pluginsManager = new PluginsManagerImpl(null, executor, configProvider)
         pluginsManager.registerPluginsProvider(pluginsProvider)
         assertTrue(pluginsManager.pluginsProvidersList.contains(pluginsProvider))
         assertTrue(isRegisterPluginsListenerExecuted)

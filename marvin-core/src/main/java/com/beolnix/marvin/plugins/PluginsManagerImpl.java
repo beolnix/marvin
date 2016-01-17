@@ -1,11 +1,14 @@
 package com.beolnix.marvin.plugins;
 
+import com.beolnix.marvin.config.api.ConfigurationProvider;
+import com.beolnix.marvin.config.api.model.PluginConfig;
 import com.beolnix.marvin.im.api.model.IMIncomingMessage;
 import com.beolnix.marvin.im.api.IMSessionManager;
 import com.beolnix.marvin.plugins.api.*;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +23,8 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
     // dependencies
     private final IMSessionManager imSessionManager;
     private final Executor executor;
+    private final ConfigurationProvider configProvider;
+    private final Map<String, PluginConfig> pluginConfigMap = new HashMap<>();
 
     // state
     private final Map<String, IMPlugin> pluginsMap = new ConcurrentHashMap<>();
@@ -28,9 +33,23 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
     // constants
     private static final Logger logger = Logger.getLogger(PluginsManagerImpl.class);
 
-    public PluginsManagerImpl(IMSessionManager imSessionManager, Executor executor) {
+    public PluginsManagerImpl(IMSessionManager imSessionManager, Executor executor, ConfigurationProvider configProvider) {
+        this.configProvider = configProvider;
         this.imSessionManager = imSessionManager;
         this.executor = executor;
+
+        initPluginConfigMap(configProvider);
+    }
+
+    private void initPluginConfigMap(ConfigurationProvider configProvider) {
+        try {
+            configProvider.getPluginSettings().getPluginConfigs().stream()
+                    .forEach(pluginConfig -> {
+                        pluginConfigMap.put(pluginConfig.getName(), pluginConfig);
+                    });
+        } catch (Exception e) {
+            logger.error("Can't fetch plugins specific configs because of: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -61,9 +80,19 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
 
     @Override
     public void deployPlugin(IMPlugin imPlugin) {
+        enrichPluginWithConfig(imPlugin);
         imPlugin.setIMSessionManager(imSessionManager);
+
         pluginsMap.put(imPlugin.getPluginName(), imPlugin);
         logger.info("New plugin has been deployed: " + imPlugin.getPluginName());
+    }
+
+    private void enrichPluginWithConfig(IMPlugin imPlugin) {
+        if (pluginConfigMap.containsKey(imPlugin.getPluginName())) {
+            imPlugin.setPluginConfig(pluginConfigMap.get(imPlugin.getPluginName()));
+        } else {
+            logger.warn("No config for " + imPlugin.getPluginName() + " plugin found.");
+        }
     }
 
     @Override

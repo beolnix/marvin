@@ -6,7 +6,7 @@ import com.samczsun.skype4j.SkypeBuilder;
 import com.samczsun.skype4j.events.EventHandler;
 import com.samczsun.skype4j.events.Listener;
 import com.samczsun.skype4j.events.chat.message.MessageReceivedEvent;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -15,6 +15,7 @@ import org.junit.Test;
 public class Prototype {
 
     @Test
+    @Ignore
     public void test() throws Exception {
         Skype skype = new SkypeBuilder("marvin.the_bot", "secret").withAllResources().build();
         skype.login();
