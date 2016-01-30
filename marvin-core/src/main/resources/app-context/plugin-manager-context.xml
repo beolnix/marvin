@@ -12,6 +12,7 @@
     <bean id="pluginManager" class="com.beolnix.marvin.plugins.PluginsManagerImpl">
         <constructor-arg name="imSessionManager" ref="imSessionManager"/>
         <constructor-arg name="executor" ref="pluginExecutor"/>
+        <constructor-arg name="configProvider" ref="configProvider"/>
     </bean>
 
 </beans>
