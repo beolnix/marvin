@@ -111,7 +111,10 @@ public class SkypeIMSession implements IMSession {
     @Override
     public void connect() {
         if (skype != null) {
+            state = IMSessionState.RECONNECTING;
             disconnect();
+        } else {
+            state = IMSessionState.CONNECTING;
         }
 
         logger.info("Trying to login using " + botSettings.getLogin() + " and " + botSettings.getPassword());

@@ -152,7 +152,13 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
 
     @Override
     public void connect() {
-        state = IMSessionState.CONNECTING;
+        if (session != null) {
+            state = IMSessionState.RECONNECTING;
+            disconnect();
+        } else {
+            state = IMSessionState.CONNECTING;
+        }
+
         session = manager.requestConnection(ircSettings.getServerName(), ircSettings.getPortNumber());
         session.addIRCEventListener(ircMessageListener);
         try {
