@@ -188,16 +188,22 @@ public class SkypeIMSession implements IMSession {
     @Override
     public void disconnect() {
         try {
-            skype.logout();
-            state = IMSessionState.DISCONNECTED;
-            skype = null;
+            if (skype != null) {
+                skype.logout();
+                skype = null;
+            }
+
+            if (state != IMSessionState.RECONNECTING) {
+                state = IMSessionState.DISCONNECTED;
+            }
         } catch (Exception e) {
             state = IMSessionState.ERROR;
             this.errorMsg = e.getMessage();
         }
     }
 
-    private void reconnect() {
+    public void reconnect() {
+        state = IMSessionState.RECONNECTING;
         disconnect();
         connect();
     }

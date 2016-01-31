@@ -127,7 +127,10 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
     public void disconnect() {
         if (session != null) {
             session.close("buy");
-            this.state = IMSessionState.DISCONNECTED;
+            session = null;
+            if (state != IMSessionState.RECONNECTING) {
+                this.state = IMSessionState.DISCONNECTED;
+            }
             logger.info("Bot with name '" + getBotName() + "' has been successfully disconnected.");
         }
     }
@@ -159,5 +162,12 @@ public class IrcIMSession implements IMSession, ConnectionListener, ErrorListene
         if (!session.isConnected()) {
             state = IMSessionState.DISCONNECTED;
         }
+    }
+
+    @Override
+    public void reconnect() {
+        state = IMSessionState.RECONNECTING;
+        disconnect();
+        connect();
     }
 }
