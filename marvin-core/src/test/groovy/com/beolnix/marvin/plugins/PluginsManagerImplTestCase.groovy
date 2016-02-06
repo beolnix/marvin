@@ -1,6 +1,9 @@
 package com.beolnix.marvin.plugins
 
+import com.beolnix.marvin.config.api.BotSettings
 import com.beolnix.marvin.config.api.ConfigurationProvider
+import com.beolnix.marvin.config.api.error.ConfigurationException
+import com.beolnix.marvin.config.api.model.Configuration
 import com.beolnix.marvin.config.api.model.PluginsSettings
 import com.beolnix.marvin.im.api.model.IMIncomingMessageBuilder
 import com.beolnix.marvin.plugins.api.IMPlugin
@@ -25,7 +28,9 @@ class PluginsManagerImplTestCase {
     ] as Executor
 
     def configProvider = [
-        "getPluginSettings": new PluginsSettings()
+            getPluginSettings: {
+                new PluginsSettings()
+            }
     ] as ConfigurationProvider
 
     def incomingMessage = new IMIncomingMessageBuilder()
@@ -56,7 +61,7 @@ class PluginsManagerImplTestCase {
                 isAllProtocolsSupported: {
                     true
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -95,7 +100,7 @@ class PluginsManagerImplTestCase {
                 isProtocolSupported : { protocol ->
                     "test".equals(protocol)
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -134,7 +139,7 @@ class PluginsManagerImplTestCase {
                 isProtocolSupported : { protocol ->
                     "test".equals(protocol)
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -173,7 +178,7 @@ class PluginsManagerImplTestCase {
                 isProtocolSupported : { protocol ->
                     "test".equals(protocol)
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -212,7 +217,7 @@ class PluginsManagerImplTestCase {
                 isProtocolSupported : { protocol ->
                     "another_protocol".equals(protocol)
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -248,7 +253,7 @@ class PluginsManagerImplTestCase {
                 isAllProtocolsSupported: {
                     true
                 },
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {
@@ -266,7 +271,7 @@ class PluginsManagerImplTestCase {
         def isProcessCalled = false
 
         def plugin = [
-                setIMSessionManager: {
+                init: { config, im ->
                     //nop
                 },
                 getPluginName: {

@@ -1,19 +1,19 @@
 package com.beolnix.marvin.plugins;
 
 import com.beolnix.marvin.config.api.ConfigurationProvider;
-import com.beolnix.marvin.config.api.model.PluginConfig;
+import com.beolnix.marvin.config.api.model.PluginProperties;
+import com.beolnix.marvin.config.api.model.PluginsSettings;
+import com.beolnix.marvin.config.api.model.Property;
 import com.beolnix.marvin.im.api.model.IMIncomingMessage;
 import com.beolnix.marvin.im.api.IMSessionManager;
 import com.beolnix.marvin.plugins.api.*;
+import com.beolnix.marvin.plugins.utils.PluginUtils;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
 
 /**
  * Created by beolnix on 31/10/15.
@@ -24,14 +24,17 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
     private final IMSessionManager imSessionManager;
     private final Executor executor;
     private final ConfigurationProvider configProvider;
-    private final Map<String, PluginConfig> pluginConfigMap = new HashMap<>();
+    private final Map<String, PluginProperties> pluginConfigMap = new HashMap<>();
 
     // state
     private final Map<String, IMPlugin> pluginsMap = new ConcurrentHashMap<>();
     private List<PluginsProvider> pluginsProvidersList = new ArrayList<>();
+    private String pluginsLogsDirPath;
+    private String pluginsHomeDir;
 
     // constants
     private static final Logger logger = Logger.getLogger(PluginsManagerImpl.class);
+    private final PluginUtils pluginUtils = new PluginUtils();
 
     public PluginsManagerImpl(IMSessionManager imSessionManager, Executor executor, ConfigurationProvider configProvider) {
         this.configProvider = configProvider;
@@ -39,13 +42,25 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
         this.executor = executor;
 
         initPluginConfigMap(configProvider);
+        initPluginSettings(configProvider);
+    }
+
+    private void initPluginSettings(ConfigurationProvider configProvider) {
+        try {
+            PluginsSettings pluginSettings = configProvider.getPluginSettings();
+            pluginsHomeDir = pluginSettings.getDirPath();
+            pluginsLogsDirPath = pluginSettings.getLogsPath();
+        } catch (Exception e) {
+            throw new RuntimeException("Illegal plugins configuration.", e);
+        }
     }
 
     private void initPluginConfigMap(ConfigurationProvider configProvider) {
         try {
-            configProvider.getPluginSettings().getPluginConfigs().stream()
-                    .forEach(pluginConfig -> {
-                        pluginConfigMap.put(pluginConfig.getName(), pluginConfig);
+            PluginsSettings pluginSettings = configProvider.getPluginSettings();
+            pluginSettings.getPluginProperties().stream()
+                    .forEach(pluginProperties -> {
+                        pluginConfigMap.put(pluginProperties.getName(), pluginProperties);
                     });
         } catch (Exception e) {
             logger.error("Can't fetch plugins specific configs because of: " + e.getMessage(), e);
@@ -80,19 +95,19 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
 
     @Override
     public void deployPlugin(IMPlugin imPlugin) {
-        enrichPluginWithConfig(imPlugin);
-        imPlugin.setIMSessionManager(imSessionManager);
+        imPlugin.init(getPluginConfig(imPlugin.getPluginName()), imSessionManager);
 
         pluginsMap.put(imPlugin.getPluginName(), imPlugin);
         logger.info("New plugin has been deployed: " + imPlugin.getPluginName());
     }
 
-    private void enrichPluginWithConfig(IMPlugin imPlugin) {
-        if (pluginConfigMap.containsKey(imPlugin.getPluginName())) {
-            imPlugin.setPluginConfig(pluginConfigMap.get(imPlugin.getPluginName()));
-        } else {
-            logger.warn("No config for " + imPlugin.getPluginName() + " plugin found.");
-        }
+    public PluginConfig getPluginConfig(String pluginName) {
+        PluginProperties pluginProperties = pluginConfigMap.get(pluginName);
+        List<Property> properties = pluginProperties == null ? Collections.EMPTY_LIST : pluginProperties.getProperties();
+
+        Logger logger = pluginUtils.getLogger(pluginsLogsDirPath, pluginName);
+        File file = pluginUtils.getPluginHomeDir(pluginsHomeDir, pluginName);
+        return new PluginConfig(logger, file, properties);
     }
 
     @Override

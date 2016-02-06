@@ -27,6 +27,9 @@ class IMSessionsWatchDogTestCase {
                 connect : {
                     isConnectCalled = true
                 },
+                reconnect : {
+                    isConnectCalled = true
+                },
                 getBotName: {
                     "testBot"
                 }] as IMSession
@@ -39,7 +42,6 @@ class IMSessionsWatchDogTestCase {
         def watchDog = new IMSessionsWatchDog(imSessionManager)
         watchDog.checkSessions()
         assertTrue(isConnectCalled)
-        assertTrue(isDisconnectCalled)
     }
 
     @Test

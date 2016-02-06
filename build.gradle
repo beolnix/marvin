@@ -55,7 +55,6 @@ dependencies {
     compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
 
     compile project(':marvin-core')
-    compile project(':marvin-plugin-utils')
     compile project(':marvin-im-session-utils')
 
     project(':im-sessions').getAllprojects().each {

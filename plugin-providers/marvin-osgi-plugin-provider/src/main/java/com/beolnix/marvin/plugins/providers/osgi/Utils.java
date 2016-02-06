@@ -105,8 +105,6 @@ public class Utils {
         configProps.put(DirectoryWatcher.DIR, new File(ps.getPluginsDeployPath()).getAbsolutePath());
         configProps.put(DirectoryWatcher.TMPDIR, new File(ps.getTmpPath()).getAbsolutePath());
         configProps.put(DirectoryWatcher.POLL, ps.getPollPeriod().toString());
-        configProps.put(IMPlugin.LOGS_PATH_PARAM_NAME, ps.getLogsPath());
-        configProps.put(IMPlugin.DIRECTORY_PARAM_NAME, ps.getDirPath());
 
         logger.info("auto deploy is configured for dir: " + ps.getPluginsDeployPath());
         logger.info("auto deploy dir is triggered every: " + ps.getPollPeriod());
