@@ -1,0 +1,10 @@
+
+dependencies {
+    compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
+
+    compile "org.apache.felix:org.apache.felix.framework:${FELIX_VERSION}"
+
+    compile "log4j:log4j:${LOG4J_VERSION}"
+
+    testCompile "junit:junit:${JUNIT_VERSION}"
+}

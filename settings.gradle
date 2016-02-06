@@ -1,1 +1,1 @@
-include 'marvin-core', 'im-sessions:marvin-irc-im-session', 'im-sessions:marvin-skype-im-session', 'plugin-providers:marvin-osgi-plugin-provider', 'marvin-im-session-utils'
+include 'marvin-core', 'im-sessions:marvin-irc-im-session', 'im-sessions:marvin-skype-im-session', 'plugin-providers:marvin-osgi-plugin-provider', 'marvin-plugin-utils', 'marvin-im-session-utils'

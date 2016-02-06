@@ -105,9 +105,8 @@ public class PluginsManagerImpl implements PluginsManager, PluginsListener {
         PluginProperties pluginProperties = pluginConfigMap.get(pluginName);
         List<Property> properties = pluginProperties == null ? Collections.EMPTY_LIST : pluginProperties.getProperties();
 
-        Logger logger = pluginUtils.getLogger(pluginsLogsDirPath, pluginName);
         File file = pluginUtils.getPluginHomeDir(pluginsHomeDir, pluginName);
-        return new PluginConfig(logger, file, properties);
+        return new PluginConfig(pluginsLogsDirPath, file, properties);
     }
 
     @Override
