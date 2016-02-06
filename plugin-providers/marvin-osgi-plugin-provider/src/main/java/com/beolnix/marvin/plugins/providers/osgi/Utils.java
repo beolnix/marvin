@@ -99,6 +99,7 @@ public class Utils {
                         "com.beolnix.marvin.plugins.api.error; version=1.0.0," +
                         "com.beolnix.marvin.plugins.api; version=1.0.0"
         );
+        configProps.put(Constants.FRAMEWORK_BOOTDELEGATION, "*");
         configProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY,
                 AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE + ", " + AutoProcessor.AUTO_DEPLOY_START_VALUE);
         configProps.put(DirectoryWatcher.DIR, new File(ps.getPluginsDeployPath()).getAbsolutePath());
