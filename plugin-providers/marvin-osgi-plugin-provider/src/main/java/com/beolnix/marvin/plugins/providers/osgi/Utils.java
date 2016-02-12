@@ -87,7 +87,7 @@ public class Utils {
         Map<String, String> configProps = new HashMap<>();
 
         configProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, ps.getSystemDeployPath());
-        configProps.put(Constants.FRAMEWORK_STORAGE, ps.getCachePath());
+        configProps.put(Constants.FRAMEWORK_STORAGE, new File(ps.getCachePath()).getAbsolutePath());
         configProps.put(
                 Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,
                 "com.beolnix.marvin.im.api; version=1.0.0," +
