@@ -22,5 +22,10 @@
         <logsPath>logs</logsPath>
         <dirPath>system/plugins-home</dirPath>
         <pollPeriod>2000</pollPeriod>
+        <plugin name="HistoryIMPlugin">
+            <property name="service.url">http://beolnix.com</property>
+            <property name="service.auth.key">bot</property>
+            <property name="service.auth.pass">password</property>
+        </plugin>
     </pluginSettings>
 </configuration>
