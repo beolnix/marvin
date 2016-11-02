@@ -42,7 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private IMIncomingMessage convert(Message message) {
         IMIncomingMessageBuilder imBuilder = new IMIncomingMessageBuilder()
                 .withBotName(botSettings.getName())
-                .withAutor(message.getMessageId().toString())
+                .withAutor(message.getChatId().toString())
                 .withRawMessageBody(message.getText())
                 .withCommand(message.isCommand())
                 .withConference(message.isGroupMessage())
@@ -53,6 +53,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (message.isGroupMessage()) {
             imBuilder.withConferenceName(message.getChatId().toString());
         }
+
+        imSessionUtils.parseCommand(message.getText(), TelegramIMSession.COMMAND_SYMBOL)
+                .ifPresent(imBuilder::withCommandName);
 
         return imBuilder.build();
     }

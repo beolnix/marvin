@@ -8,6 +8,9 @@
         <!--<property name="portNumber">6665</property>-->
         <!--<property name="charset">KOI8-R</property>-->
     <!--</bot>-->
+    <!--<bot name="test123safelTegramBot" protocol="TELEGRAM">-->
+        <!--<property name="token">PROVIDE_YOUR_TOKEN_HERE</property>-->
+    <!--</bot>-->
     <bot name="skypeBot1" protocol="SKYPE">
         <property name="login">marvin.the_bot</property>
         <property name="password">secret</property>

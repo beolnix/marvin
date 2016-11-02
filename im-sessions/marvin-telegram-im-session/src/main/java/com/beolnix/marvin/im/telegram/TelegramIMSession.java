@@ -61,7 +61,7 @@ public class TelegramIMSession implements IMSession {
         if (imOutgoingMessage.isConference()) {
             sendMessage.setChatId(imOutgoingMessage.getConferenceName());
         } else {
-            sendMessage.setReplyToMessageId(Integer.parseInt(imOutgoingMessage.getRecepient()));
+            sendMessage.setChatId(imOutgoingMessage.getRecepient());
         }
 
         try {
@@ -84,6 +84,7 @@ public class TelegramIMSession implements IMSession {
             telegramBot = new TelegramBot(botSettings, pluginManager, imSessionUtils);
             telegramBotsApi.registerBot(telegramBot);
             state = IMSessionState.CONNECTED;
+            logger.info("Telegram bot " + botSettings.getName() + " connected successfully.");
         } catch (TelegramApiRequestException e) {
             state = IMSessionState.DISCONNECTED;
             this.errorMsg = e.getMessage();
