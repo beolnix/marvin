@@ -7,6 +7,7 @@ import com.beolnix.marvin.im.telegram.TelegramIMSession;
 import com.beolnix.marvin.im.telegram.model.TelegramBotSettings;
 import com.beolnix.marvin.plugins.api.PluginsManager;
 import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -42,22 +43,28 @@ public class TelegramBot extends TelegramLongPollingBot {
     private IMIncomingMessage convert(Message message) {
         IMIncomingMessageBuilder imBuilder = new IMIncomingMessageBuilder()
                 .withBotName(botSettings.getName())
-                .withAutor(message.getChatId().toString())
+                .withAutor(parseAutor(message))
                 .withRawMessageBody(message.getText())
                 .withCommand(message.isCommand())
-                .withConference(message.isGroupMessage())
+                .withConference(true)
                 .withProtocol(TelegramIMSession.PROTOCOL)
                 .withCommandSymbol(TelegramIMSession.COMMAND_SYMBOL)
-                .withTimestamp(Calendar.getInstance());
-
-        if (message.isGroupMessage()) {
-            imBuilder.withConferenceName(message.getChatId().toString());
-        }
+                .withTimestamp(Calendar.getInstance())
+                .withConferenceName(message.getChatId().toString());
 
         imSessionUtils.parseCommand(message.getText(), TelegramIMSession.COMMAND_SYMBOL)
                 .ifPresent(imBuilder::withCommandName);
 
         return imBuilder.build();
+    }
+
+    private String parseAutor(Message message) {
+        String userName = message.getFrom().getUserName();
+        if (!StringUtils.isEmpty(userName)) {
+            return userName;
+        }
+
+        return message.getFrom().getFirstName() + " " + message.getFrom().getLastName();
     }
 
     @Override

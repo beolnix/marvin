@@ -57,12 +57,7 @@ public class TelegramIMSession implements IMSession {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(imOutgoingMessage.getRawMessageBody());
-
-        if (imOutgoingMessage.isConference()) {
-            sendMessage.setChatId(imOutgoingMessage.getConferenceName());
-        } else {
-            sendMessage.setChatId(imOutgoingMessage.getRecepient());
-        }
+        sendMessage.setChatId(imOutgoingMessage.getConferenceName());
 
         try {
             telegramBot.sendMessage(sendMessage);
