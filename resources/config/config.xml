@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <!--<bot name="ircBot1" protocol="IRC">-->
-        <!--<property name="nickname">marvin|irc</property>-->
-        <!--<property name="channelName">#dev</property>-->
-        <!--<property name="channelPassword">devdev</property>-->
-        <!--<property name="serverName">irc.dalnet.ru</property>-->
-        <!--<property name="portNumber">6665</property>-->
-        <!--<property name="charset">KOI8-R</property>-->
-    <!--</bot>-->
-    <!--<bot name="test123safelTegramBot" protocol="TELEGRAM">-->
-        <!--<property name="token">PROVIDE_YOUR_TOKEN_HERE</property>-->
-    <!--</bot>-->
+
+    <!-- Examples of the bot configuration.
+
+         Valid configuration may include several bots for the same or different protocol.
+         The only requirement - bot name must be unique.
+    -->
+
+    <!--
+    <bot name="ircBot1" protocol="IRC">
+        <property name="nickname">marvin|irc</property>
+        <property name="channelName">#dev</property>
+        <property name="channelPassword">devdev</property>
+        <property name="serverName">irc.dalnet.ru</property>
+        <property name="portNumber">6665</property>
+        <property name="charset">KOI8-R</property>
+    </bot>
+    <bot name="test123safelTegramBot" protocol="TELEGRAM">
+        <property name="token">PROVIDE_YOUR_TOKEN_HERE</property>
+    </bot>
     <bot name="skypeBot1" protocol="SKYPE">
         <property name="login">marvin.the_bot</property>
         <property name="password">secret</property>
     </bot>
+    <bot name="marvin" protocol="SLACK">
+        <property name="token">PROVIDE_YOUR_TOKEN_HERE</property>
+    </bot>
+    -->
+
     <pluginSettings>
         <managerPassword>test</managerPassword>
         <libsPath>lib</libsPath>
