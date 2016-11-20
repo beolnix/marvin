@@ -23,10 +23,10 @@ I guess it should also work fine on Windows if you run it as `java -jar core.jar
 ## Build from source
 Just execute the following command and may the force be with you:
 ```
-gradle clean build
+gradle clean packageMarvin
 ```
 
-If everything was fine, the distr will be in **build/libs/distr**. 
+If everything was fine, the distr will be in **build/distr**. 
 
 ## Launch
 Edit config.xml placed in a root dir of the distr and launch **marvin.sh**
