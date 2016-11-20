@@ -34,6 +34,10 @@
         <level value="ERROR"/>
     </logger>
 
+    <logger name="com.ullink.slack">
+        <level value="INFO"/>
+    </logger>
+
     <!-- Root Logger -->
     <root>
         <priority value="ERROR"/>

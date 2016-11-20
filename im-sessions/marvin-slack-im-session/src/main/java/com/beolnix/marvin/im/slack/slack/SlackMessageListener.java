@@ -31,6 +31,10 @@ public class SlackMessageListener implements SlackMessagePostedListener {
 
     @Override
     public void onEvent(SlackMessagePosted event, SlackSession session) {
+        if (botSettings.getName().equals(event.getSender().getUserName())) {
+            logger.debug("Skip message we sent a moment ago.");
+            return;
+        }
         logger.debug("update received: " + event.toString());
         pluginManager.process(convert(event));
     }
