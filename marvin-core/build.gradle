@@ -7,6 +7,8 @@ dependencies {
     compile project(':im-sessions:marvin-irc-im-session')
     compile project(':im-sessions:marvin-skype-im-session')
     compile project(':im-sessions:marvin-telegram-im-session')
+    compile project(':im-sessions:marvin-slack-im-session')
+
     compile project(':plugin-providers:marvin-osgi-plugin-provider')
 
     compile "com.beolnix:args-parser:0.3"

@@ -1,6 +1,6 @@
 ## Project description
 
-Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC,Skype and Telegram protocols only but it was designed with support of other protocols in mind.
+Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC, Skype, Telegram and Slack protocols only but it was designed with support of other protocols in mind.
 
 ## Project details
 | Version | State | Code link |

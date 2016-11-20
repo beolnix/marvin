@@ -1,0 +1,21 @@
+
+dependencies {
+    compile group: 'com.beolnix.marvin', name: 'marvin-api', version: MARVIN_API_VERSION, changing: true
+
+    compile project(':marvin-im-session-utils')
+
+    compile "org.codehaus.groovy:groovy-all:${GROOVY_VERSION}"
+
+    // https://mvnrepository.com/artifact/com.ullink.slack/simpleslackapi
+    compile group: 'com.ullink.slack', name: 'simpleslackapi', version: '0.6.0'
+
+    compile "org.springframework:spring-core:${SPRING_VERSION}"
+    compile "org.springframework:spring-beans:${SPRING_VERSION}"
+    compile "org.springframework:spring-context:${SPRING_VERSION}"
+
+    compile "log4j:log4j:${LOG4J_VERSION}"
+
+    testCompile "junit:junit:${JUNIT_VERSION}"
+    testCompile "org.springframework:spring-test:${SPRING_VERSION}"
+}
+
