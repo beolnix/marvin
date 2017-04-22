@@ -22,10 +22,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final PluginsManager pluginManager;
     private final IMSessionUtils imSessionUtils;
 
+    private final String botNameSuffix;
+
     public TelegramBot(TelegramBotSettings botSettings, PluginsManager pluginManager, IMSessionUtils imSessionUtils) {
         this.botSettings = botSettings;
         this.pluginManager = pluginManager;
         this.imSessionUtils = imSessionUtils;
+        this.botNameSuffix = "@" + botSettings.getName();
     }
 
     @Override
@@ -41,10 +44,18 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private IMIncomingMessage convert(Message message) {
+
+        // it is needed to let plugins created for non-telegram protocols correctly process the command
+        String msgText = message.getText();
+        if (msgText.endsWith(botNameSuffix)) {
+            msgText = msgText.replace(botNameSuffix, "");
+            logger.info("Removed bot name suffix " + botNameSuffix + " from the original message.");
+        }
+
         IMIncomingMessageBuilder imBuilder = new IMIncomingMessageBuilder()
                 .withBotName(botSettings.getName())
                 .withAutor(parseAutor(message))
-                .withRawMessageBody(message.getText())
+                .withRawMessageBody(msgText)
                 .withCommand(message.isCommand())
                 .withConference(true)
                 .withProtocol(TelegramIMSession.PROTOCOL)
@@ -52,7 +63,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 .withTimestamp(Calendar.getInstance())
                 .withConferenceName(message.getChatId().toString());
 
-        imSessionUtils.parseCommand(message.getText(), TelegramIMSession.COMMAND_SYMBOL)
+        imSessionUtils.parseCommand(msgText, TelegramIMSession.COMMAND_SYMBOL)
                 .ifPresent(imBuilder::withCommandName);
 
         return imBuilder.build();
