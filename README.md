@@ -3,10 +3,10 @@
 Marvin is a bot with dynamic osgi based plugin system. Right now it supports IRC, Skype, Telegram and Slack protocols only but it was designed with support of other protocols in mind.
 
 ## Project details
-| Version | State | Code link |
-| --- | --- | --- | --- |
-| 0.2 | Stable | [0.2-release](https://github.com/beolnix/marvin/releases/tag/0.2-release) |
-| 0.3-SNAPSHOT | In dev | [master](https://github.com/beolnix/marvin/) |
+Version | State | Code link |
+--- | --- | --- | 
+0.2 | Stable | [0.2-release](https://github.com/beolnix/marvin/releases/tag/0.2-release) |
+0.3-SNAPSHOT | In dev | [master](https://github.com/beolnix/marvin/) | 
 
 ## Requirements
 It was tested on Mac OS X and Ubuntu 14.04. 
